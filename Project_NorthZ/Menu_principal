@@ -2,8 +2,9 @@ import pygame
 pygame.init()
 
 ventana=pygame.display.set_mode((1500, 750))#ancho--alto
-Menu_principal=pygame.image.load("Project_NorthZ/Menu_principal_prueba.jpeg")
-Menu_principal=pygame.transform.scale(Menu_principal,(1500, 750))
+Menu_carga=pygame.image.load("Project_NorthZ/Menu_carga_prueba.jpeg")
+Menu_Principal=pygame.image.load("")
+Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
 jugando=True
 while jugando:
     #1.Comprobar loque hace el jugador
@@ -15,7 +16,7 @@ while jugando:
 
     # 3. Dibujar las cosas
     # aquí dibujaremos imágenes, personajes, fondo...
-    ventana.blit(Menu_principal,(0,0))
+    ventana.blit(Menu_carga,(0,0))
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
