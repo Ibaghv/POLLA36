@@ -1,0 +1,20 @@
+import pygame
+pygame.init()
+
+ventana=pygame.display.set_mode((1500, 800))#ancho--alto
+Menu_principal=pygame.image.load("fondo.png")
+jugando=True
+while jugando:
+    #1.Comprobar loque hace el jugador
+    for evento in pygame.event.get():
+        if evento.type==pygame.QUIT:#si da a la X se cierrra
+            jugando=False
+    # 2. Actualizar el juego
+    # aquí irá el movimiento, enemigos, etc.
+
+    # 3. Dibujar las cosas
+    # aquí dibujaremos imágenes, personajes, fondo...
+
+    # 4. Actualizar la pantalla
+    pygame.display.update()
+pygame.quit()#final del juego
