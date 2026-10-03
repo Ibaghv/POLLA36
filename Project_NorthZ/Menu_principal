@@ -7,15 +7,34 @@ def imagen():
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu_carga_prueba.jpeg")
     Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menú_principal.png")
     Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Enpezar_Menu_carga.png")
+    Nueva_partida=pygame.image.load("Project_NorthZ/Imágenes/Nueva_partida_MP.png")
+    Controles=pygame.image.load("Project_NorthZ/Imágenes/Controles_MP.png")
+    Tutorial=pygame.image.load("Project_NorthZ/Imágenes/Turotial_MP.png")
+    Creditos=pygame.image.load("Project_NorthZ/Imágenes/Créditos_MP.png")
+    Salir=pygame.image.load("Project_NorthZ/Imágenes/Salir_MP.png")
+    
+    
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
     Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(723, 110))
+    Nueva_partida=pygame.transform.scale(Nueva_partida,(258,60))
+    Controles=pygame.transform.scale(Controles,(180,50))
+    Tutorial=pygame.transform.scale(Tutorial,(190,55))
+    Creditos=pygame.transform.scale(Creditos,(165,50))
+    Salir=pygame.transform.scale(Salir,(110,50))
 
-    return Menu_carga, Menu_Principal, Enpezar_Menu
+    return Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir
     
-Menu_carga, Menu_Principal, Enpezar_Menu=imagen()
-rect_botonEM=Enpezar_Menu.get_rect()
-rect_botonEM.topleft=(400,592)
+def rect_boton(Enpezar_Menu, Nueva_partida):
+    rect_botonEM=Enpezar_Menu.get_rect()#Crear un rectangulo para que se pueda clickear
+    rect_botonEM.topleft=(400,592)#Tamaño de zona que se puede clickear
+    rect_botonNP=Nueva_partida.get_rect()
+    rect_botonNP.topleft=(72,351)
+    
+    return rect_botonEM, rect_botonNP
+
+Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir=imagen()
+rect_botonEM, rect_botonNP=rect_boton(Enpezar_Menu, Nueva_partida)
 jugando=True
 pantalla_actual="carga"#Estamos en la pantalla de carga
 while jugando:
@@ -27,6 +46,8 @@ while jugando:
             posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
             if rect_botonEM.collidepoint(posicion):#Click dentro de la zona 
                 pantalla_actual="principal"
+            if rect_botonNP.collidepoint(posicion):
+                pantalla_actual="Comienzo_partida"
     # 2.Actualizar_el_juego
     # aquí.irá_el_movimiento,enemigos..
 
@@ -37,6 +58,13 @@ while jugando:
         ventana.blit(Enpezar_Menu,(400,592))
     elif pantalla_actual=="principal":
         ventana.blit(Menu_Principal,(0,0))
+        ventana.blit(Nueva_partida,(72,351))
+        ventana.blit(Tutorial,(72,426))
+        ventana.blit(Controles,(72,488))
+        ventana.blit(Creditos,(68,544))
+        ventana.blit(Salir,(72,604))
+    elif pantalla_actual=="Comienzo_partida":
+        ventana.blit()
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
