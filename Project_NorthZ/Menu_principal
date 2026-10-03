@@ -10,20 +10,21 @@ def imagen():
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
     Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(700, 80))
+
     return Menu_carga, Menu_Principal, Enpezar_Menu
     
+Menu_carga, Menu_Principal, Enpezar_Menu=imagen()
 jugando=True
 while jugando:
-    Menu_carga, Menu_Principal, Enpezar_Menu=imagen()
-    #1.Comprobar loque hace el jugador
+    #1.Comprobar_loque_hace_el_jugador
     for evento in pygame.event.get():
         if evento.type==pygame.QUIT:#si da a la X se cierrra
             jugando=False
-    # 2. Actualizar el juego
-    # aquí irá el movimiento, enemigos, etc.
+    # 2.Actualizar_el_juego
+    # aquí.irá_el_movimiento_enemigos..
 
-    # 3. Dibujar las cosas
-    # aquí dibujaremos imágenes, personajes, fondo...
+    # 3.Dibujar_las_cosas
+    # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana.blit(Menu_carga,(0,0))
     ventana.blit(Enpezar_Menu,(350,600))
     # 4. Actualizar la pantalla
