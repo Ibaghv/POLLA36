@@ -4,29 +4,39 @@ pygame.init()
 ventana=pygame.display.set_mode((1500, 750))#ancho--alto
 
 def imagen():
-    Menu_carga=pygame.image.load("Project_NorthZ/Menu_carga_prueba.jpeg")
-    Menu_Principal=pygame.image.load("Project_NorthZ/Menu_Principal.png")
-    Enpezar_Menu=pygame.image.load("Project_NorthZ/Enpezar_Menu_carga.png")
+    Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu_carga_prueba.jpeg")
+    Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu_Principal.png")
+    Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Enpezar_Menu_carga.png")
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
-    Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(700, 80))
+    Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(725, 110))
 
     return Menu_carga, Menu_Principal, Enpezar_Menu
     
 Menu_carga, Menu_Principal, Enpezar_Menu=imagen()
+rect_boton=Enpezar_Menu.get_rect()
+rect_boton.topleft=(400,592)
 jugando=True
+pantalla_actual="carga"#Estamos en la pantalla de carga
 while jugando:
     #1.Comprobar_loque_hace_el_jugador
     for evento in pygame.event.get():
         if evento.type==pygame.QUIT:#si da a la X se cierrra
             jugando=False
+        if evento.type==pygame.MOUSEBUTTONDOWN:#¿Se ha hecho click?
+            posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
+            if rect_boton.collidepoint(posicion):#Click dentro de la zona 
+                pantalla_actual="principal"
     # 2.Actualizar_el_juego
-    # aquí.irá_el_movimiento_enemigos..
+    # aquí.irá_el_movimiento,enemigos..
 
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
-    ventana.blit(Menu_carga,(0,0))
-    ventana.blit(Enpezar_Menu,(350,600))
+    if pantalla_actual=="carga":
+        ventana.blit(Menu_carga,(0,0))
+        ventana.blit(Enpezar_Menu,(400,592))
+    elif pantalla_actual=="principal":
+        ventana.blit(Menu_Principal,(0,0))
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
