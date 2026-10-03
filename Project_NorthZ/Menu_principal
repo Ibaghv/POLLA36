@@ -5,7 +5,7 @@ ventana=pygame.display.set_mode((1500, 750))#ancho--alto
 
 def imagen():
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu_carga_prueba.jpeg")
-    Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu_Principal.png")
+    Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menú_principal.png")
     Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Enpezar_Menu_carga.png")
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
