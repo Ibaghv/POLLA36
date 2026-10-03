@@ -12,6 +12,7 @@ def imagen():
     Tutorial=pygame.image.load("Project_NorthZ/Imágenes/Turotial_MP.png")
     Creditos=pygame.image.load("Project_NorthZ/Imágenes/Créditos_MP.png")
     Salir=pygame.image.load("Project_NorthZ/Imágenes/Salir_MP.png")
+    Nueva_partidaA=pygame.image.load("Project_NorthZ/Imágenes/Nueva partida negro.png")
     
     
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
@@ -22,8 +23,9 @@ def imagen():
     Tutorial=pygame.transform.scale(Tutorial,(190,55))
     Creditos=pygame.transform.scale(Creditos,(165,50))
     Salir=pygame.transform.scale(Salir,(110,50))
+    Nueva_partidaA=pygame.transform.scale(Nueva_partidaA,(1500,750))
 
-    return Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir
+    return Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir, Nueva_partidaA
     
 def rect_boton(Enpezar_Menu, Nueva_partida):
     rect_botonEM=Enpezar_Menu.get_rect()#Crear un rectangulo para que se pueda clickear
@@ -33,7 +35,23 @@ def rect_boton(Enpezar_Menu, Nueva_partida):
     
     return rect_botonEM, rect_botonNP
 
-Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir=imagen()
+def dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir, Nueva_partidaA):
+    if pantalla_actual=="carga":
+        ventana.blit(Menu_carga,(0,0))
+        ventana.blit(Enpezar_Menu,(400,592))
+    elif pantalla_actual=="principal":
+        ventana.blit(Menu_Principal,(0,0))
+        ventana.blit(Nueva_partida,(72,351))
+        ventana.blit(Tutorial,(72,426))
+        ventana.blit(Controles,(72,488))
+        ventana.blit(Creditos,(68,544))
+        ventana.blit(Salir,(72,604))
+    elif pantalla_actual=="Comienzo_partida":
+        ventana.blit(Nueva_partidaA,(0,0))
+               
+    return ventana
+
+Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir, Nueva_partidaA=imagen()
 rect_botonEM, rect_botonNP=rect_boton(Enpezar_Menu, Nueva_partida)
 jugando=True
 pantalla_actual="carga"#Estamos en la pantalla de carga
@@ -53,18 +71,8 @@ while jugando:
 
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
-    if pantalla_actual=="carga":
-        ventana.blit(Menu_carga,(0,0))
-        ventana.blit(Enpezar_Menu,(400,592))
-    elif pantalla_actual=="principal":
-        ventana.blit(Menu_Principal,(0,0))
-        ventana.blit(Nueva_partida,(72,351))
-        ventana.blit(Tutorial,(72,426))
-        ventana.blit(Controles,(72,488))
-        ventana.blit(Creditos,(68,544))
-        ventana.blit(Salir,(72,604))
-    elif pantalla_actual=="Comienzo_partida":
-        ventana.blit()
+    ventana=dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir, Nueva_partidaA
+                            )
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
