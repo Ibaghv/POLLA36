@@ -9,13 +9,13 @@ def imagen():
     Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Enpezar_Menu_carga.png")
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
-    Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(725, 110))
+    Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(723, 110))
 
     return Menu_carga, Menu_Principal, Enpezar_Menu
     
 Menu_carga, Menu_Principal, Enpezar_Menu=imagen()
-rect_boton=Enpezar_Menu.get_rect()
-rect_boton.topleft=(400,592)
+rect_botonEM=Enpezar_Menu.get_rect()
+rect_botonEM.topleft=(400,592)
 jugando=True
 pantalla_actual="carga"#Estamos en la pantalla de carga
 while jugando:
@@ -25,7 +25,7 @@ while jugando:
             jugando=False
         if evento.type==pygame.MOUSEBUTTONDOWN:#¿Se ha hecho click?
             posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
-            if rect_boton.collidepoint(posicion):#Click dentro de la zona 
+            if rect_botonEM.collidepoint(posicion):#Click dentro de la zona 
                 pantalla_actual="principal"
     # 2.Actualizar_el_juego
     # aquí.irá_el_movimiento,enemigos..
