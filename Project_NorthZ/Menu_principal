@@ -64,7 +64,7 @@ def dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, 
                
     return ventana
 
-def eventos(jugando,rect_botonEM, rect_botonNP, rect_botonC, rect_botonT ):
+def eventos(jugando,pantalla_actual, rect_botonEM, rect_botonNP, rect_botonC, rect_botonT):
     for evento in pygame.event.get():
             if evento.type==pygame.QUIT:#si da a la X se cierrra
                 jugando=False
@@ -91,7 +91,7 @@ while jugando:
                 
     # 2.Actualizar_el_juego
     # aquí.irá_el_movimiento,enemigos..
-
+    jugando, pantalla_actual=eventos(jugando,pantalla_actual, rect_botonEM, rect_botonNP, rect_botonC, rect_botonT)
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana=dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, 
