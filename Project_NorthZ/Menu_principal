@@ -20,7 +20,7 @@ def imagen():
     SalirA=pygame.image.load("Project_NorthZ/Imágenes/SalirA.jpg")
     Nueva_partida_rojo=pygame.image.load("Project_NorthZ/Imágenes/Nueva_partida_MP_rojo.png")
     Controles_rojo=pygame.image.load("Project_NorthZ/Imágenes/Controles_MP_rojo.png")
-    Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Turotial_MP_rojo.png")
+    Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Tutorial_rojo.png")
     
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))#Transformar la imagen a un tamaño
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
@@ -37,7 +37,7 @@ def imagen():
     SalirA=pygame.transform.scale(SalirA,(1500,750))
     Nueva_partida_rojo=pygame.transform.scale(Nueva_partida_rojo,(300,60))
     Controles_rojo=pygame.transform.scale(Controles_rojo,(210,50))
-    Tutorial_rojo=pygame.transform.scale(Tutorial_rojo,(250,55))
+    Tutorial_rojo=pygame.transform.scale(Tutorial_rojo,(230,55))
 
     return (Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida,Controles, Tutorial, Creditos, 
             Salir, Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, Nueva_partida_rojo, 
@@ -74,7 +74,7 @@ def dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, 
         else:
             ventana.blit(Nueva_partida,(72,351))
         if rect_botonT.collidepoint(posicion):
-            ventana.blit(Tutorial_rojo,(50,426))
+            ventana.blit(Tutorial_rojo,(45,426))
         else:
             ventana.blit(Tutorial,(72,426))
         if rect_botonC.collidepoint(posicion):
