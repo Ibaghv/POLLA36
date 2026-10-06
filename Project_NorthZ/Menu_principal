@@ -20,6 +20,7 @@ def imagen():
     SalirA=pygame.image.load("Project_NorthZ/Imágenes/SalirA.jpg")
     Nueva_partida_rojo=pygame.image.load("Project_NorthZ/Imágenes/Nueva_partida_MP_rojo.png")
     Controles_rojo=pygame.image.load("Project_NorthZ/Imágenes/Controles_MP_rojo.png")
+    Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Turotial_MP_rojo.png")
     
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))#Transformar la imagen a un tamaño
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
@@ -34,12 +35,13 @@ def imagen():
     TutorialA=pygame.transform.scale(TutorialA,(1500,750))
     CreditosA=pygame.transform.scale(CreditosA,(1500,750))
     SalirA=pygame.transform.scale(SalirA,(1500,750))
-    Nueva_partida_rojo=pygame.transform.scale(Nueva_partida_rojo,(258,60))
-    Controles_rojo=pygame.transform.scale(Controles_rojo,(180,50))
+    Nueva_partida_rojo=pygame.transform.scale(Nueva_partida_rojo,(300,60))
+    Controles_rojo=pygame.transform.scale(Controles_rojo,(210,50))
+    Tutorial_rojo=pygame.transform.scale(Tutorial_rojo,(250,55))
 
     return (Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida,Controles, Tutorial, Creditos, 
             Salir, Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, Nueva_partida_rojo, 
-            Controles_rojo)
+            Controles_rojo, Tutorial_rojo)
     
 def rect_boton(Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir):
     rect_botonEM=Enpezar_Menu.get_rect()#Crear un rectangulo para que se pueda clickear
@@ -59,7 +61,7 @@ def rect_boton(Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir
 
 def dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, 
                      Controles, Tutorial, Creditos, Salir, Nueva_partidaA, ControlesA, TutorialA, 
-                     CreditosA, SalirA, jugando, rect_botonNP, rect_botonC):
+                     CreditosA, SalirA, jugando, rect_botonNP, rect_botonC, rect_botonT):
     if pantalla_actual=="carga":
         ventana.blit(Menu_carga,(0,0))
         ventana.blit(Enpezar_Menu,(400,592))
@@ -68,13 +70,15 @@ def dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, 
         
         posicion=pygame.mouse.get_pos()#Donde está el ratón
         if rect_botonNP.collidepoint(posicion):
-            ventana.blit(Nueva_partida_rojo,(72,351))
+            ventana.blit(Nueva_partida_rojo,(55,351))
         else:
             ventana.blit(Nueva_partida,(72,351))
-        
-        ventana.blit(Tutorial,(72,426))
+        if rect_botonT.collidepoint(posicion):
+            ventana.blit(Tutorial_rojo,(50,426))
+        else:
+            ventana.blit(Tutorial,(72,426))
         if rect_botonC.collidepoint(posicion):
-            ventana.blit(Controles_rojo,(72,488))
+            ventana.blit(Controles_rojo,(50,488))
         else:
             ventana.blit(Controles,(72,488))
         
@@ -120,7 +124,8 @@ def eventos(jugando,pantalla_actual, rect_botonEM, rect_botonNP, rect_botonC, re
 
 
 (Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir, 
-    Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, Nueva_partida_rojo, Controles_rojo)=imagen()
+    Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, Nueva_partida_rojo, Controles_rojo,
+    Tutorial_rojo)=imagen()
 
 (rect_botonEM, rect_botonNP, rect_botonC, rect_botonT, 
         rect_botonCr, rect_botonS)=rect_boton(Enpezar_Menu, Nueva_partida, Controles, 
@@ -139,7 +144,8 @@ while jugando:
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana, jugando=dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, 
-                            Creditos, Salir, Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, jugando, rect_botonNP, rect_botonC)
+                            Creditos, Salir, Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, jugando, rect_botonNP, rect_botonC, 
+                            rect_botonT)
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
