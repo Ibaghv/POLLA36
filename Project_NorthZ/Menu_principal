@@ -23,6 +23,7 @@ def imagen():
     Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Tutorial_rojo.png")
     Creditos_rojo=pygame.image.load("Project_NorthZ/Imágenes/Créditos_MP_rojo.png")
     Salir_rojo=pygame.image.load("Project_NorthZ/Imágenes/Salir_MP_rojo.png")
+    click=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/Project Zomboid Ambient Study Music - Studio Quality - OST - Void Monolith Gaming.mp3")
     
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))#Transformar la imagen a un tamaño
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
@@ -140,7 +141,7 @@ def eventos(jugando,pantalla_actual, rect_botonEM, rect_botonNP, rect_botonC, re
     Tutorial_rojo, Creditos_rojo, Salir_rojo)=imagen()
 
 (rect_botonEM, rect_botonNP, rect_botonC, rect_botonT, 
-        rect_botonCr, rect_botonS)=rect_boton(Enpezar_Menu, Nueva_partida, Controles, 
+    rect_botonCr, rect_botonS)=rect_boton(Enpezar_Menu, Nueva_partida, Controles, 
                                             Tutorial, Creditos, Salir)
 boton_pulsado=None
 tienpo_pulsación=0
