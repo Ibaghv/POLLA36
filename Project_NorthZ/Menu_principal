@@ -23,8 +23,7 @@ def imagen():
     Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Tutorial_rojo.png")
     Creditos_rojo=pygame.image.load("Project_NorthZ/Imágenes/Créditos_MP_rojo.png")
     Salir_rojo=pygame.image.load("Project_NorthZ/Imágenes/Salir_MP_rojo.png")
-    clickA=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/project-zomboid-ambient-study-music-studio-quality-ost-void-monolith-gaming_c0Nzc6a7.mp3")
-    
+
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))#Transformar la imagen a un tamaño
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
     Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(723, 110))
@@ -49,12 +48,10 @@ def imagen():
             Controles_rojo, Tutorial_rojo, Creditos_rojo, Salir_rojo)
 
 def musica():
-    clickA=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/project-zomboid-ambient-study-music-studio-quality-ost-void-monolith-gaming_c0Nzc6a7.mp3")
-    
-    pygame.mixer.music.load("Project_NorthZ/Audio_vídeos/project-zomboid-ambient-study-music-studio-quality-ost-void-monolith-gaming_c0Nzc6a7.mp3")
-    pygame.mixer.music.play(-1)#Se repite sin parar
-    
-    return clickA
+    click_MCarga=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/Menu_Carga.mp3")
+    click_Mprincipal=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/Menu_principal.mp3")
+        
+    return click_MCarga, click_Mprincipal
 def rect_boton(Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir):
     rect_botonEM=Enpezar_Menu.get_rect()#Crear un rectangulo para que se pueda clickear
     rect_botonEM.topleft=(400,592)#Tamaño de zona que se puede clickear
@@ -74,11 +71,13 @@ def rect_boton(Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir
 def dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, 
                      Controles, Tutorial, Creditos, Salir, Nueva_partidaA, ControlesA, TutorialA, 
                      CreditosA, SalirA, jugando, rect_botonNP, rect_botonC, rect_botonT, rect_botonCr, 
-                     rect_botonS):
+                     rect_botonS, click_MCarga, click_Mprincipal):
     if pantalla_actual=="carga":
+        click_MCarga.play()
         ventana.blit(Menu_carga,(0,0))
         ventana.blit(Enpezar_Menu,(400,592))
     elif pantalla_actual=="principal":
+        click_Mprincipal.play()
         ventana.blit(Menu_Principal,(0,0))
         
         posicion=pygame.mouse.get_pos()#Donde está el ratón
@@ -151,8 +150,7 @@ def eventos(jugando,pantalla_actual, rect_botonEM, rect_botonNP, rect_botonC, re
     rect_botonCr, rect_botonS)=rect_boton(Enpezar_Menu, Nueva_partida, Controles, 
                                             Tutorial, Creditos, Salir)
 
-clickA=musica()
-clickA.play()
+click_MCarga, click_Mprincipal=musica()
 
 boton_pulsado=None
 tienpo_pulsación=0
@@ -169,7 +167,7 @@ while jugando:
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana, jugando=dibujar_pantalla(pantalla_actual, Menu_carga, Menu_Principal, Enpezar_Menu, Nueva_partida, Controles, Tutorial, 
                             Creditos, Salir, Nueva_partidaA, ControlesA, TutorialA, CreditosA, SalirA, jugando, rect_botonNP, rect_botonC, 
-                            rect_botonT, rect_botonCr, rect_botonS)
+                            rect_botonT, rect_botonCr, rect_botonS, click_MCarga, click_Mprincipal)
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
