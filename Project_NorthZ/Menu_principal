@@ -5,26 +5,24 @@ pygame.init()
 ventana=pygame.display.set_mode((1500, 750))#ancho--alto
 
 def imagen():
-    Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu_carga_prueba.jpeg")#Cargar la imagen dentro del código
-    Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menú_principal.png")
-    Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Enpezar_Menu_carga.png")
-    Nueva_partida=pygame.image.load("Project_NorthZ/Imágenes/Nueva_partida_MP.png")
-    Controles=pygame.image.load("Project_NorthZ/Imágenes/Controles_MP.png")
-    Tutorial=pygame.image.load("Project_NorthZ/Imágenes/Turotial_MP.png")
-    Creditos=pygame.image.load("Project_NorthZ/Imágenes/Créditos_MP.png")
-    Salir=pygame.image.load("Project_NorthZ/Imágenes/Salir_MP.png")
-    ControlesA=pygame.image.load("Project_NorthZ/Imágenes/Controles negro.png")
-    TutorialA=pygame.image.load("Project_NorthZ/Imágenes/Tutorial negro.png")
-    CreditosA=pygame.image.load("Project_NorthZ/Imágenes/Créditos negro.png")
-    SalirA=pygame.image.load("Project_NorthZ/Imágenes/SalirA.jpg")
-    Nueva_partida_rojo=pygame.image.load("Project_NorthZ/Imágenes/Nueva_partida_MP_rojo.png")
-    Controles_rojo=pygame.image.load("Project_NorthZ/Imágenes/Controles_MP_rojo.png")
-    Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Tutorial_rojo.png")
-    Creditos_rojo=pygame.image.load("Project_NorthZ/Imágenes/Créditos_MP_rojo.png")
-    Salir_rojo=pygame.image.load("Project_NorthZ/Imágenes/Salir_MP_rojo.png")
-    Nueva_partida_1_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/01_el_dia_que_el_mundo_murio.png")
-
-
+    Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menu_carga_prueba.jpeg")#Cargar la imagen dentro del código
+    Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menú_principal.png")
+    Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Enpezar_Menu_carga.png")
+    Nueva_partida=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Nueva_partida_MP.png")
+    Controles=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP.png")
+    Tutorial=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Turotial_MP.png")
+    Creditos=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP.png")
+    Salir=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Salir_MP.png")
+    ControlesA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Controles negro.png")
+    TutorialA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Tutorial negro.png")
+    CreditosA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos negro.png")
+    SalirA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/SalirA.jpg")
+    Nueva_partida_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Nueva_partida_MP_rojo.png")
+    Controles_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Controles_MP_rojo.png")
+    Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Tutorial_rojo.png")
+    Creditos_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP_rojo.png")
+    Salir_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Salir_MP_rojo.png")
+    
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))#Transformar la imagen a un tamaño
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
     Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(723, 110))
@@ -33,7 +31,6 @@ def imagen():
     Tutorial=pygame.transform.scale(Tutorial,(190,55))
     Creditos=pygame.transform.scale(Creditos,(165,50))
     Salir=pygame.transform.scale(Salir,(110,50))
-    Nueva_partida_1_lore=pygame.transform.scale(Nueva_partida_1_lore,(1500,750))#Página de la Nueva partida
     ControlesA=pygame.transform.scale(ControlesA,(1500,750))
     TutorialA=pygame.transform.scale(TutorialA,(1500,750))
     CreditosA=pygame.transform.scale(CreditosA,(1500,750))
@@ -43,7 +40,25 @@ def imagen():
     Tutorial_rojo=pygame.transform.scale(Tutorial_rojo,(230,55))
     Creditos_rojo=pygame.transform.scale(Creditos_rojo,(200,45))
     Salir_rojo=pygame.transform.scale(Salir_rojo,(175,45))
-
+    
+    Nueva_partida_1_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/01_el_dia_que_el_mundo_murio.png")
+    Nueva_partida_2_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/02_el_metro.png")
+    Nueva_partida_3_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/03_la_huida.png")
+    Nueva_partida_4_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/04_las_facciones.png")
+    Nueva_partida_5_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/05_los_infectados.png")
+    Nueva_partida_6_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/06_el_secreto_de_la_bomba.png")
+    Nueva_partida_7_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/07_tu_historia_comienza.png")
+    Nueva_partida_8_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/08_final.png")
+    
+    Nueva_partida_1_lore=pygame.transform.scale(Nueva_partida_1_lore,(1500,750))#Página de la Nueva partida
+    Nueva_partida_2_lore=pygame.transform.scale(Nueva_partida_2_lore,(1500,750))
+    Nueva_partida_3_lore=pygame.transform.scale(Nueva_partida_3_lore,(1500,750))
+    Nueva_partida_4_lore=pygame.transform.scale(Nueva_partida_4_lore,(1500,750))
+    Nueva_partida_5_lore=pygame.transform.scale(Nueva_partida_5_lore,(1500,750))
+    Nueva_partida_6_lore=pygame.transform.scale(Nueva_partida_6_lore,(1500,750))
+    Nueva_partida_7_lore=pygame.transform.scale(Nueva_partida_7_lore,(1500,750))
+    Nueva_partida_8_lore=pygame.transform.scale(Nueva_partida_8_lore,(1500,750))
+    
     return{
     "pantallas": {
         "carga": Menu_carga,
@@ -66,8 +81,14 @@ def imagen():
         "Cr_rojo": Creditos_rojo,
         "S_rojo": Salir_rojo},
     "pantallas_lore":{
-        "Lore1":Nueva_partida_1_lore
-    }
+        "Lore1":Nueva_partida_1_lore,
+        "Lore2":Nueva_partida_2_lore,
+        "Lore3":Nueva_partida_3_lore,
+        "Lore4":Nueva_partida_4_lore,
+        "Lore5":Nueva_partida_5_lore,
+        "Lore6":Nueva_partida_6_lore,
+        "Lore7":Nueva_partida_7_lore,
+        "Lore8":Nueva_partida_8_lore,}
 }
 
 def musica():
@@ -75,51 +96,56 @@ def musica():
     click_Mprincipal=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/Menu_principal.mp3")
         
     return click_MCarga, click_Mprincipal
-def rect_boton(Enpezar_Menu, Nueva_partida, Controles, Tutorial, Creditos, Salir):
-    rect_botonEM=Enpezar_Menu.get_rect()#Crear un rectangulo para que se pueda clickear
+def rect_boton(imagenes):
+    rect_botonEM=imagenes["botones"]["empezar"].get_rect()#Crear un rectangulo para que se pueda clickear
     rect_botonEM.topleft=(400,592)#Tamaño de zona que se puede clickear
-    rect_botonNP=Nueva_partida.get_rect()
+    rect_botonNP=imagenes["botones"]["NP"].get_rect()
     rect_botonNP.topleft=(72,351)
-    rect_botonC=Controles.get_rect()
+    rect_botonC=imagenes["botones"]["C"].get_rect()
     rect_botonC.topleft=(72,488)   
-    rect_botonT=Tutorial.get_rect()
+    rect_botonT=imagenes["botones"]["T"].get_rect()
     rect_botonT.topleft=(72,426)
-    rect_botonCr=Creditos.get_rect()
+    rect_botonCr=imagenes["botones"]["Cr"].get_rect()
     rect_botonCr.topleft=(68,544)
-    rect_botonS=Salir.get_rect()
+    rect_botonS=imagenes["botones"]["S"].get_rect()
     rect_botonS.topleft=(72,604)
     
-    return rect_botonEM, rect_botonNP, rect_botonC, rect_botonT, rect_botonCr, rect_botonS
+    return{
+        "clickeable_AL":{
+            "Rb_EM":rect_botonEM,
+            "Rb_NP":rect_botonNP,
+            "Rb_C":rect_botonC,
+            "Rb_T":rect_botonT,
+            "Rb_Cr":rect_botonCr,
+            "Rb_S":rect_botonS}
+    }
 
-def dibujar_pantalla(pantalla_actual,imagenes , jugando, rect_botonNP, rect_botonC, rect_botonT, rect_botonCr, 
-                     rect_botonS, click_MCarga, click_Mprincipal):
+def dibujar_pantalla(pantalla_actual, imagenes , jugando, rectangulos_click, click_MCarga, click_Mprincipal):
     
     if pantalla_actual=="carga":
-        click_MCarga.play()
         ventana.blit(imagenes["pantallas"]["carga"],(0,0))
         ventana.blit(imagenes["botones"]["empezar"],(400,592))
     elif pantalla_actual=="principal":
-        click_Mprincipal.play()
         ventana.blit(imagenes["pantallas"]["principal"],(0,0))
         
         posicion=pygame.mouse.get_pos()#Donde está el ratón
-        if rect_botonNP.collidepoint(posicion):
+        if rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
             ventana.blit(imagenes["botones_rojo"]["NP_rojo"],(55,351))
         else:
-            ventana.blit(imagenes["botones"]["empezar"],(72,351))
-        if rect_botonT.collidepoint(posicion):
+            ventana.blit(imagenes["botones"]["NP"],(72,351))
+        if rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
             ventana.blit(imagenes["botones_rojo"]["T_rojo"],(45,426))
         else:
             ventana.blit(imagenes["botones"]["T"],(72,426))
-        if rect_botonC.collidepoint(posicion):
+        if rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
             ventana.blit(imagenes["botones_rojo"]["C_rojo"],(50,488))
         else:
             ventana.blit(imagenes["botones"]["C"],(72,488))
-        if rect_botonCr.collidepoint(posicion):
+        if rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
             ventana.blit(imagenes["botones_rojo"]["Cr_rojo"],(40,544))
         else:
             ventana.blit(imagenes["botones"]["Cr"],(68,544))
-        if rect_botonS.collidepoint(posicion):
+        if rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
             ventana.blit(imagenes["botones_rojo"]["S_rojo"],(45,604))
         else:
             ventana.blit(imagenes["botones"]["S"],(72,604))
@@ -139,37 +165,65 @@ def dibujar_pantalla(pantalla_actual,imagenes , jugando, rect_botonNP, rect_boto
         pygame.display.update()
         time.sleep(3)
         jugando=False
-               
+    elif pantalla_actual=="plore1":
+        ventana.blit(imagenes["pantallas_lore"]["Lore2"],(0,0))
+    elif pantalla_actual=="plore2":
+        ventana.blit(imagenes["pantallas_lore"]["Lore3"],(0,0))
+    elif pantalla_actual=="plore3":
+        ventana.blit(imagenes["pantallas_lore"]["Lor4"],(0,0))
+    elif pantalla_actual=="plore4":
+        ventana.blit(imagenes["pantallas_lore"]["Lore5"],(0,0))
+    elif pantalla_actual=="plore5":
+        ventana.blit(imagenes["pantallas_lore"]["Lore6"],(0,0))
+    elif pantalla_actual=="plore6":
+        ventana.blit(imagenes["pantallas_lore"]["Lore7"],(0,0)) 
+    elif pantalla_actual=="plore7":
+        ventana.blit(imagenes["pantallas_lore"]["Lore8"],(0,0))       
+        
     return ventana, jugando
 
-def eventos(jugando,pantalla_actual, rect_botonEM, rect_botonNP, rect_botonC, rect_botonT, rect_botonCr, rect_botonS):
+def eventos(jugando, pantalla_actual, rectangulos_click):
     for evento in pygame.event.get():
             if evento.type==pygame.QUIT:#si da a la X se cierrra
                 jugando=False
             if evento.type==pygame.MOUSEBUTTONDOWN:#¿Se ha hecho click?
                 posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
-                if rect_botonEM.collidepoint(posicion):#Click dentro de la zona 
+                if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):#Click dentro de la zona 
                     pantalla_actual="principal"
-                elif rect_botonNP.collidepoint(posicion):
+                elif rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
                     pantalla_actual="Comienzo partida"
-                elif rect_botonC.collidepoint(posicion):
+                elif rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
                     pantalla_actual="Controles"
-                elif rect_botonT.collidepoint(posicion):
+                elif rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
                     pantalla_actual="Tutorial"
-                elif rect_botonCr.collidepoint(posicion):
+                elif rectangulos_click["clickeable_AL"]["RbCr"].collidepoint(posicion):
                     pantalla_actual="Creditos"
-                elif rect_botonS.collidepoint(posicion):
+                elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
                     pantalla_actual="Salir"
             if evento.type==pygame.KEYDOWN:
                 if evento.key==pygame.K_RETURN and pantalla_actual=="carga":#K_RETURN es enter
                     pantalla_actual="principal"
-    
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="Comienzo partida":
+                    pantalla_actual="plore1"
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore1":
+                    pantalla_actual="plore2"
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore2":
+                    pantalla_actual="plore3"
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore3":
+                    pantalla_actual="plore4"
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore4":
+                    pantalla_actual="plore5"
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore5":
+                    pantalla_actual="plore6"
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore6":
+                    pantalla_actual="plore7"    
+                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore7":
+                    pantalla_actual="plore8"
     return jugando, pantalla_actual
 
 imagenes=imagen()
 
-(rect_botonEM, rect_botonNP, rect_botonC, rect_botonT, 
-    rect_botonCr, rect_botonS)=rect_boton(imagenes)
+(rectangulos_click)=rect_boton(imagenes)
 
 click_MCarga, click_Mprincipal=musica()
 
@@ -182,12 +236,16 @@ while jugando:
                 
     # 2.Actualizar_el_juego
     # aquí.irá_el_movimiento,enemigos..
-    jugando, pantalla_actual=eventos(jugando,pantalla_actual, rect_botonEM, 
-                            rect_botonNP, rect_botonC, rect_botonT, rect_botonCr, rect_botonS)
+    jugando, pantalla_actual=eventos(jugando,pantalla_actual, rectangulos_click)
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
-    ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes, jugando, rect_botonNP, rect_botonC, 
-                            rect_botonT, rect_botonCr, rect_botonS, click_MCarga, click_Mprincipal)
+    ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes, jugando, rectangulos_click,)
     # 4. Actualizar la pantalla
+    if pantalla_actual!=pantalla_anterior:
+        if pantalla_actual=="carga":
+            click_MCarga.play()
+        elif pantalla_actual=="principal":
+            click_Mprincipal.play()
+        pantalla_anterior=pantalla_actual
     pygame.display.update()
 pygame.quit()#final del juego
