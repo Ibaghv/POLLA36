@@ -59,7 +59,7 @@ def imagen():
         "T": Tutorial,
         "Cr": Creditos,
         "S": Salir},
-    "botones_rojos": {
+    "botones_rojo": {
         "NP_rojo": Nueva_partida_rojo,
         "C_rojo": Controles_rojo,
         "T_rojo": Tutorial_rojo,
@@ -116,7 +116,7 @@ def dibujar_pantalla(pantalla_actual,imagenes , jugando, rect_botonNP, rect_boto
         else:
             ventana.blit(imagenes["botones"]["C"],(72,488))
         if rect_botonCr.collidepoint(posicion):
-            ventana.blit(imagenes["botones_rojos"]["Cr_rojo"],(40,544))
+            ventana.blit(imagenes["botones_rojo"]["Cr_rojo"],(40,544))
         else:
             ventana.blit(imagenes["botones"]["Cr"],(68,544))
         if rect_botonS.collidepoint(posicion):
