@@ -4,7 +4,7 @@ pygame.init()
 
 ventana=pygame.display.set_mode((1500, 750))#ancho--alto
 
-def imagen():
+def imagen_Mp():
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menu_carga_prueba.jpeg")#Cargar la imagen dentro del código
     Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menú_principal.png")
     Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Enpezar_Menu_carga.png")
@@ -41,23 +41,6 @@ def imagen():
     Creditos_rojo=pygame.transform.scale(Creditos_rojo,(200,45))
     Salir_rojo=pygame.transform.scale(Salir_rojo,(175,45))
     
-    Nueva_partida_1_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/01_el_dia_que_el_mundo_murio.png")
-    Nueva_partida_2_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/02_el_metro.png")
-    Nueva_partida_3_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/03_la_huida.png")
-    Nueva_partida_4_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/04_las_facciones.png")
-    Nueva_partida_5_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/05_los_infectados.png")
-    Nueva_partida_6_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/06_el_secreto_de_la_bomba.png")
-    Nueva_partida_7_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/07_tu_historia_comienza.png")
-    Nueva_partida_8_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/08_final.png")
-    
-    Nueva_partida_1_lore=pygame.transform.scale(Nueva_partida_1_lore,(1500,750))#Página de la Nueva partida
-    Nueva_partida_2_lore=pygame.transform.scale(Nueva_partida_2_lore,(1500,750))
-    Nueva_partida_3_lore=pygame.transform.scale(Nueva_partida_3_lore,(1500,750))
-    Nueva_partida_4_lore=pygame.transform.scale(Nueva_partida_4_lore,(1500,750))
-    Nueva_partida_5_lore=pygame.transform.scale(Nueva_partida_5_lore,(1500,750))
-    Nueva_partida_6_lore=pygame.transform.scale(Nueva_partida_6_lore,(1500,750))
-    Nueva_partida_7_lore=pygame.transform.scale(Nueva_partida_7_lore,(1500,750))
-    Nueva_partida_8_lore=pygame.transform.scale(Nueva_partida_8_lore,(1500,750))
     
     return{
     "pantallas": {
@@ -79,7 +62,29 @@ def imagen():
         "C_rojo": Controles_rojo,
         "T_rojo": Tutorial_rojo,
         "Cr_rojo": Creditos_rojo,
-        "S_rojo": Salir_rojo},
+        "S_rojo": Salir_rojo}
+}
+
+def imagen_lore():
+    Nueva_partida_1_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/01_el_dia_que_el_mundo_murio.png")
+    Nueva_partida_2_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/02_el_metro.png")
+    Nueva_partida_3_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/03_la_huida.png")
+    Nueva_partida_4_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/04_las_facciones.png")
+    Nueva_partida_5_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/05_los_infectados.png")
+    Nueva_partida_6_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/06_el_secreto_de_la_bomba.png")
+    Nueva_partida_7_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/07_tu_historia_comienza.png")
+    Nueva_partida_8_lore=pygame.image.load("Project_NorthZ/Imágenes/Juego lore/08_final.png")
+    
+    Nueva_partida_1_lore=pygame.transform.scale(Nueva_partida_1_lore,(1500,750))#Página de la Nueva partida
+    Nueva_partida_2_lore=pygame.transform.scale(Nueva_partida_2_lore,(1500,750))
+    Nueva_partida_3_lore=pygame.transform.scale(Nueva_partida_3_lore,(1500,750))
+    Nueva_partida_4_lore=pygame.transform.scale(Nueva_partida_4_lore,(1500,750))
+    Nueva_partida_5_lore=pygame.transform.scale(Nueva_partida_5_lore,(1500,750))
+    Nueva_partida_6_lore=pygame.transform.scale(Nueva_partida_6_lore,(1500,750))
+    Nueva_partida_7_lore=pygame.transform.scale(Nueva_partida_7_lore,(1500,750))
+    Nueva_partida_8_lore=pygame.transform.scale(Nueva_partida_8_lore,(1500,750))
+    
+    return{
     "pantallas_lore":{
         "Lore1":Nueva_partida_1_lore,
         "Lore2":Nueva_partida_2_lore,
@@ -89,25 +94,25 @@ def imagen():
         "Lore6":Nueva_partida_6_lore,
         "Lore7":Nueva_partida_7_lore,
         "Lore8":Nueva_partida_8_lore,}
-}
+    }
 
 def musica():
     click_MCarga=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/Menu_Carga.mp3")
     click_Mprincipal=pygame.mixer.Sound("Project_NorthZ/Audio_vídeos/Menu_principal.mp3")
         
     return click_MCarga, click_Mprincipal
-def rect_boton(imagenes):
-    rect_botonEM=imagenes["botones"]["empezar"].get_rect()#Crear un rectangulo para que se pueda clickear
+def rect_boton(imagenes_Mp):
+    rect_botonEM=imagenes_Mp["botones"]["empezar"].get_rect()#Crear un rectangulo para que se pueda clickear
     rect_botonEM.topleft=(400,592)#Tamaño de zona que se puede clickear
-    rect_botonNP=imagenes["botones"]["NP"].get_rect()
+    rect_botonNP=imagenes_Mp["botones"]["NP"].get_rect()
     rect_botonNP.topleft=(72,351)
-    rect_botonC=imagenes["botones"]["C"].get_rect()
+    rect_botonC=imagenes_Mp["botones"]["C"].get_rect()
     rect_botonC.topleft=(72,488)   
-    rect_botonT=imagenes["botones"]["T"].get_rect()
+    rect_botonT=imagenes_Mp["botones"]["T"].get_rect()
     rect_botonT.topleft=(72,426)
-    rect_botonCr=imagenes["botones"]["Cr"].get_rect()
+    rect_botonCr=imagenes_Mp["botones"]["Cr"].get_rect()
     rect_botonCr.topleft=(68,544)
-    rect_botonS=imagenes["botones"]["S"].get_rect()
+    rect_botonS=imagenes_Mp["botones"]["S"].get_rect()
     rect_botonS.topleft=(72,604)
     
     return{
@@ -120,48 +125,48 @@ def rect_boton(imagenes):
             "Rb_S":rect_botonS}
     }
 
-def dibujar_pantalla(pantalla_actual, imagenes , jugando, rectangulos_click, click_MCarga, click_Mprincipal):
+def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, click_MCarga, click_Mprincipal):
     
     if pantalla_actual=="carga":
-        ventana.blit(imagenes["pantallas"]["carga"],(0,0))
-        ventana.blit(imagenes["botones"]["empezar"],(400,592))
+        ventana.blit(imagenes_Mp["pantallas"]["carga"],(0,0))
+        ventana.blit(imagenes_Mp["botones"]["empezar"],(400,592))
     elif pantalla_actual=="principal":
-        ventana.blit(imagenes["pantallas"]["principal"],(0,0))
+        ventana.blit(imagenes_Mp["pantallas"]["principal"],(0,0))
         
         posicion=pygame.mouse.get_pos()#Donde está el ratón
         if rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
-            ventana.blit(imagenes["botones_rojo"]["NP_rojo"],(55,351))
+            ventana.blit(imagenes_Mp["botones_rojo"]["NP_rojo"],(55,351))
         else:
-            ventana.blit(imagenes["botones"]["NP"],(72,351))
+            ventana.blit(imagenes_Mp["botones"]["NP"],(72,351))
         if rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
-            ventana.blit(imagenes["botones_rojo"]["T_rojo"],(45,426))
+            ventana.blit(imagenes_Mp["botones_rojo"]["T_rojo"],(45,426))
         else:
-            ventana.blit(imagenes["botones"]["T"],(72,426))
+            ventana.blit(imagenes_Mp["botones"]["T"],(72,426))
         if rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
-            ventana.blit(imagenes["botones_rojo"]["C_rojo"],(50,488))
+            ventana.blit(imagenes_Mp["botones_rojo"]["C_rojo"],(50,488))
         else:
-            ventana.blit(imagenes["botones"]["C"],(72,488))
+            ventana.blit(imagenes_Mp["botones"]["C"],(72,488))
         if rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
-            ventana.blit(imagenes["botones_rojo"]["Cr_rojo"],(40,544))
+            ventana.blit(imagenes_Mp["botones_rojo"]["Cr_rojo"],(40,544))
         else:
-            ventana.blit(imagenes["botones"]["Cr"],(68,544))
+            ventana.blit(imagenes_Mp["botones"]["Cr"],(68,544))
         if rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
-            ventana.blit(imagenes["botones_rojo"]["S_rojo"],(45,604))
+            ventana.blit(imagenes_Mp["botones_rojo"]["S_rojo"],(45,604))
         else:
-            ventana.blit(imagenes["botones"]["S"],(72,604))
+            ventana.blit(imagenes_Mp["botones"]["S"],(72,604))
         
     elif pantalla_actual=="Comienzo partida":
-        ventana.blit(imagenes["pantallas_lore"]["Lore1"],(0,0))
+        ventana.blit(imagenes_Mp["pantallas_lore"]["Lore1"],(0,0))
         
         
     elif pantalla_actual=="Controles":
-        ventana.blit(imagenes["pantallas"]["controles"],(0,0))
+        ventana.blit(imagenes_Mp["pantallas"]["controles"],(0,0))
     elif pantalla_actual=="Tutorial":
-        ventana.blit(imagenes["pantallas"]["tutorial"],(0,0))
+        ventana.blit(imagenes_Mp["pantallas"]["tutorial"],(0,0))
     elif pantalla_actual=="Creditos":
-        ventana.blit(imagenes["pantallas"]["creditos"],(0,0))
+        ventana.blit(imagenes_Mp["pantallas"]["creditos"],(0,0))
     elif pantalla_actual=="Salir":
-        ventana.blit(imagenes["pantallas"]["salir"],(0,0))
+        ventana.blit(imagenes_Mp["pantallas"]["salir"],(0,0))
         pygame.display.update()
         time.sleep(3)
         jugando=False
@@ -221,16 +226,19 @@ def eventos(jugando, pantalla_actual, rectangulos_click):
                     pantalla_actual="plore8"
     return jugando, pantalla_actual
 
-imagenes=imagen()
-
-(rectangulos_click)=rect_boton(imagenes)
-
-click_MCarga, click_Mprincipal=musica()
-
 boton_pulsado=None
 tienpo_pulsación=0
 jugando=True
 pantalla_actual="carga"#Estamos en la pantalla de carga
+
+
+imagenes_Mp=imagen_Mp()
+
+(rectangulos_click)=rect_boton(imagenes_Mp)
+
+click_MCarga, click_Mprincipal=musica()
+
+
 while jugando:
     #1.Comprobar_loque_hace_el_jugador
                 
@@ -239,7 +247,7 @@ while jugando:
     jugando, pantalla_actual=eventos(jugando,pantalla_actual, rectangulos_click)
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
-    ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes, jugando, rectangulos_click,)
+    ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click,)
     # 4. Actualizar la pantalla
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="carga":
