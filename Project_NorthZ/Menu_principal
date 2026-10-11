@@ -156,7 +156,7 @@ def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, i
             ventana.blit(imagenes_Mp["botones"]["S"],(72,604))
         
     elif pantalla_actual=="Comienzo partida":
-        ventana.blit(imagenes_Mp["pantallas_lore"]["Lore1"],(0,0))
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore1"],(0,0))
         
         
     elif pantalla_actual=="Controles":
@@ -175,7 +175,7 @@ def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, i
     elif pantalla_actual=="plore2":
         ventana.blit(imagenes_lore["pantallas_lore"]["Lore3"],(0,0))
     elif pantalla_actual=="plore3":
-        ventana.blit(imagenes_lore["pantallas_lore"]["Lor4"],(0,0))
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore4"],(0,0))
     elif pantalla_actual=="plore4":
         ventana.blit(imagenes_lore["pantallas_lore"]["Lore5"],(0,0))
     elif pantalla_actual=="plore5":
@@ -191,54 +191,43 @@ def eventos(jugando, pantalla_actual, rectangulos_click):
     for evento in pygame.event.get():
             if evento.type==pygame.QUIT:#si da a la X se cierrra
                 jugando=False
-            if evento.type==pygame.MOUSEBUTTONDOWN:#¿Se ha hecho click?
+            if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="carga":
+                posicion=pygame.mouse.get_pos()
+                if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):
+                    pantalla_actual="principal"
+            if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="principal":#¿Se ha hecho click?
                 posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
                 if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):#Click dentro de la zona 
                     pantalla_actual="principal"
-                    Mp==True
                 elif rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
                     pantalla_actual="Comienzo partida"
-                    Mp==True
                 elif rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
                     pantalla_actual="Controles"
-                    Mp==True
                 elif rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
                     pantalla_actual="Tutorial"
-                    Mp==True
-                elif rectangulos_click["clickeable_AL"]["RbCr"].collidepoint(posicion):
+                elif rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
                     pantalla_actual="Creditos"
-                    Mp==True
                 elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
                     pantalla_actual="Salir"
-                    Mp==True
             if evento.type==pygame.KEYDOWN:
                 if evento.key==pygame.K_RETURN and pantalla_actual=="carga":#K_RETURN es enter
                     pantalla_actual="principal"
-                    Mp==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="Comienzo partida":
                     pantalla_actual="plore1"
-                    Lore==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore1":
                     pantalla_actual="plore2"
-                    Lore==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore2":
                     pantalla_actual="plore3"
-                    Lore==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore3":
                     pantalla_actual="plore4"
-                    Lore==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore4":
                     pantalla_actual="plore5"
-                    Lore==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore5":
                     pantalla_actual="plore6"
-                    Lore==True
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore6":
-                    pantalla_actual="plore7"  
-                    Lore==True  
+                    pantalla_actual="plore7"    
                 elif evento.key==pygame.K_RETURN and pantalla_actual=="plore7":
                     pantalla_actual="plore8"
-                    Lore==True
                     
     return jugando, pantalla_actual
 
@@ -246,9 +235,14 @@ boton_pulsado=None
 tienpo_pulsación=0
 jugando=True
 pantalla_actual="carga"#Estamos en la pantalla de carga
-Lore=None
-Mp=None
+pantalla_anterior="carga"
 
+imagenes_Mp=None
+imagenes_lore=None
+rectangulos_click=None
+
+imagenes_Mp=imagen_Mp()
+rectangulos_click=rect_boton(imagenes_Mp)
 click_MCarga, click_Mprincipal=musica()
 
 
@@ -257,21 +251,33 @@ while jugando:
                 
     # 2.Actualizar_el_juego
     # aquí.irá_el_movimiento,enemigos..
-    if Lore==True:
-        imagenes_lore=imagen_lore()
-    elif Mp==True:
-        imagenes_Mp=imagen_Mp()
-        (rectangulos_click)=rect_boton(imagenes_Mp)
     jugando, pantalla_actual=eventos(jugando,pantalla_actual, rectangulos_click)
+    if pantalla_actual!=pantalla_anterior:
+        if pantalla_actual=="Comienzo partida":#Si entramos a lore
+            imagenes_Mp=None
+            rectangulos_click=None
+            imagenes_lore=imagen_lore()
+            click_MCarga.play()
+        elif pantalla_actual=="principal":#Si entramos a menú
+            imagenes_lore=None
+            imagenes_Mp=imagen_Mp()
+            rectangulos_click=rect_boton(imagenes_Mp)
+            click_Mprincipal.play()
+        pantalla_anterior=pantalla_actual
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore)
-    # 4. Actualizar la pantalla
+    #música
     if pantalla_actual!=pantalla_anterior:
-        if pantalla_actual=="carga":
-            click_MCarga.play()
-        elif pantalla_actual=="principal":
+        if pantalla_actual=="principal":
+            click_MCarga.stop()
             click_Mprincipal.play()
-        pantalla_anterior=pantalla_actual
+        elif pantalla_actual=="carga":
+            click_Mprincipal.stop()
+            click_MCarga.play()
+        elif pantalla_actual=="Comienzo partida":
+            click_Mprincipal.stop()
+        pantalla_anterior = pantalla_actual
+    # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
