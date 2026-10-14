@@ -2,8 +2,6 @@ import pygame
 import time
 pygame.init()
 
-ventana=pygame.display.set_mode((1500, 750))#ancho--alto
-
 def imagen_Mp():
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menu_carga_prueba.jpeg")#Cargar la imagen dentro del código
     Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menú_principal.png")
@@ -231,6 +229,11 @@ def eventos(jugando, pantalla_actual, rectangulos_click):
                     
     return jugando, pantalla_actual
 
+def movimiento_fuera():
+    return
+
+pygame.init()
+ventana=pygame.display.set_mode((1500, 750))#ancho--alto
 boton_pulsado=None
 tienpo_pulsación=0
 jugando=True
@@ -281,3 +284,4 @@ while jugando:
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
+
