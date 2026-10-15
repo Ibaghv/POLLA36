@@ -2,6 +2,15 @@ import pygame
 import time
 pygame.init()
 
+def cargar_jugador():
+    parado=pygame.image.load("--")
+    derecha1=pygame.image.load("--")
+    derecha2=pygame.image.load("--")
+    izquierda1=pygame.image.load("--")
+    izquierda2=pygame.image.load("--")
+
+    return parado, derecha1, derecha2, izquierda1, izquierda2
+
 def imagen_Mp():
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menu_carga_prueba.jpeg")#Cargar la imagen dentro del código
     Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menú_principal.png")
@@ -229,8 +238,42 @@ def eventos(jugando, pantalla_actual, rectangulos_click):
                     
     return jugando, pantalla_actual
 
-def movimiento_fuera():
-    return
+def movimiento_jugador(x, y, velocidad_y, saltando):
+    teclas=pygame.key.get_pressed()
+    if teclas[pygame.K_d]:
+        x+=VELOCIDAD
+    elif teclas[pygame.K_a]:
+        x-=VELOCIDAD
+    if teclas[pygame.K_SPACE] and not saltando:
+        velocidad_y=SALTO
+        saltando=True
+    velocidad_y+=GRAVEDAD
+    y+=velocidad_y
+    if y>=600:
+        y=600
+        velocidad_y=0
+        saltando=False
+
+    return x, y, velocidad_y, saltando
+
+def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, fotograma, tiempo):
+    if pygame.time.get_ticks()-tiempo>=100:
+        fotograma+=1
+        tiempo=pygame.time.get_ticks()
+    if teclas[pygame.K_d]:
+        if fotograma%2==0:
+            imagen=derecha1
+        else:
+            imagen=derecha2
+    elif teclas[pygame.K_a]:
+        if fotograma%2==0:
+            imagen=izquierda1
+        else:
+            imagen=izquierda2
+    else:
+        imagen=parado
+
+    return imagen, fotograma, tiempo
 
 pygame.init()
 ventana=pygame.display.set_mode((1500, 750))#ancho--alto
@@ -243,6 +286,11 @@ pantalla_anterior="carga"
 imagenes_Mp=None
 imagenes_lore=None
 rectangulos_click=None
+
+# Constantes movimiento
+VELOCIDAD=5
+SALTO=-15
+GRAVEDAD=0.8
 
 imagenes_Mp=imagen_Mp()
 rectangulos_click=rect_boton(imagenes_Mp)
