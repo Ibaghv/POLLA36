@@ -149,8 +149,8 @@ def rect_boton(imagenes_Mp):
     
 def rect_puertas():
     # Ajusta estas coordenadas a la posición de cada puerta en tus imágenes.
-    puerta_JP1 = pygame.Rect(1100, 250, 250, 400)
-    puerta_JP2 = pygame.Rect(1100, 250, 250, 400)
+    puerta_JP1=pygame.Rect(1100, 250, 250, 400)
+    puerta_JP2=pygame.Rect(1100, 250, 250, 400)
     return puerta_JP1, puerta_JP2
 
 
@@ -370,7 +370,7 @@ while jugando:
             click_MCarga.play()
         elif pantalla_actual=="Comienzo partida":
             click_Mprincipal.stop()
-        pantalla_anterior = pantalla_actual
+        pantalla_anterior=pantalla_actual
     # 4. Actualizar la pantalla
     pygame.display.update()
 pygame.quit()#final del juego
