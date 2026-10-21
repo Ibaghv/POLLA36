@@ -1,0 +1,483 @@
+import pygame
+import time
+from pathlib import Path
+import unicodedata
+from difflib import get_close_matches
+
+pygame.init()
+
+ANCHO, ALTO = 1500, 750
+ventana = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Project_NorthZ")
+reloj = pygame.time.Clock()
+
+# Busca los recursos por nombre, aunque cambie la carpeta o falten tildes/espacios.
+CARPETA_CODIGO = Path(__file__).resolve().parent
+CARPETA_PROYECTO = (CARPETA_CODIGO / "Project_NorthZ" if (CARPETA_CODIGO / "Project_NorthZ").is_dir()
+                    else CARPETA_CODIGO if CARPETA_CODIGO.name.lower() == "project_northz"
+                    else Path.cwd() / "Project_NorthZ" if (Path.cwd() / "Project_NorthZ").is_dir()
+                    else CARPETA_CODIGO)
+
+
+def normalizar(nombre):
+    nombre = unicodedata.normalize("NFD", nombre.lower())
+    nombre = "".join(c for c in nombre if unicodedata.category(c) != "Mn")
+    return "".join(c for c in nombre if c.isalnum())
+
+
+ARCHIVOS_PROYECTO = None
+
+
+def buscar_recurso(nombre):
+    global ARCHIVOS_PROYECTO
+    buscado = Path(nombre).name
+
+    # Indexa las carpetas una sola vez para no ralentizar el juego.
+    if ARCHIVOS_PROYECTO is None:
+        raices = []
+        for raiz in (CARPETA_PROYECTO, CARPETA_CODIGO, Path.cwd(), Path.cwd() / "Project_NorthZ"):
+            if raiz.is_dir() and raiz not in raices:
+                raices.append(raiz)
+        ARCHIVOS_PROYECTO = []
+        vistos = set()
+        for raiz in raices:
+            try:
+                for archivo in raiz.rglob("*"):
+                    if archivo.is_file() and archivo not in vistos:
+                        vistos.add(archivo)
+                        ARCHIVOS_PROYECTO.append(archivo)
+            except (PermissionError, OSError):
+                pass
+
+    archivos = ARCHIVOS_PROYECTO
+    clave = normalizar(buscado)
+    coincidencias = [p for p in archivos if normalizar(p.name) == clave]
+    if coincidencias:
+        return coincidencias[0]
+
+    # Si la extensión cambió (por ejemplo .jpg por .png), busca el mismo nombre base.
+    base = normalizar(Path(buscado).stem)
+    coincidencias = [p for p in archivos if normalizar(p.stem) == base]
+    if len(coincidencias) == 1:
+        return coincidencias[0]
+
+    nombres = list(dict.fromkeys(p.name for p in archivos))
+    sugerencias = get_close_matches(buscado, nombres, n=5, cutoff=0.45)
+    detalle = "\nArchivos parecidos encontrados: " + ", ".join(sugerencias) if sugerencias else ""
+    raise FileNotFoundError(f"No encuentro '{buscado}'.\nCarpeta del proyecto buscada: {CARPETA_PROYECTO}{detalle}\nRevisa que el archivo exista y que su nombre esté escrito correctamente.")
+
+
+def cargar_imagen(nombre):
+    return pygame.image.load(str(buscar_recurso(nombre)))
+
+
+def cargar_audio(nombre):
+    return pygame.mixer.Sound(str(buscar_recurso(nombre)))
+
+
+# --------------------------------------------------
+# CONFIGURACIÓN DE LA VENTANA Y DEL JUEGO
+# --------------------------------------------------
+
+# Variables del jugador y del mapa (prototipo inicial)
+jugador_x = 100
+jugador_y = 600
+velocidad = 5
+velocidad_salto = 0
+gravedad = 0.6
+suelo_y = 650
+
+ancho_mundo = 4500
+camara_x = 0
+
+
+# --------------------------------------------------
+# CARGA DE IMÁGENES DEL MENÚ
+# --------------------------------------------------
+
+def imagen_Mp():
+    archivos = {
+        "carga": "Menu_carga_prueba.jpeg", "principal": "Menú_principal.png",
+        "empezar": "Enpezar_Menu_carga.png", "NP": "Nueva_partida_MP.png",
+        "C": "Controles_MP.png", "T": "Turotial_MP.png", "Cr": "Créditos_MP.png",
+        "S": "Salir_MP.png", "controles": "Controles negro.png",
+        "tutorial": "Tutorial negro.png", "creditos": "Créditos negro.png", "salir": "SalirA.jpg",
+        "NP_rojo": "Nueva_partida_MP_rojo.png", "C_rojo": "Controles_MP_rojo.png",
+        "T_rojo": "Tutorial_rojo.png", "Cr_rojo": "Créditos_MP_rojo.png", "S_rojo": "Salir_MP_rojo.png"
+    }
+    imagenes = {nombre: cargar_imagen(archivo) for nombre, archivo in archivos.items()}
+    tamanos = {
+        "carga": (ANCHO, ALTO), "principal": (ANCHO, ALTO), "empezar": (723, 110),
+        "NP": (258, 60), "C": (180, 50), "T": (190, 55), "Cr": (165, 50), "S": (110, 50),
+        "controles": (ANCHO, ALTO), "tutorial": (ANCHO, ALTO), "creditos": (ANCHO, ALTO), "salir": (ANCHO, ALTO),
+        "NP_rojo": (300, 60), "C_rojo": (210, 50), "T_rojo": (230, 55), "Cr_rojo": (200, 45), "S_rojo": (175, 45)
+    }
+    for nombre, tamano in tamanos.items():
+        imagenes[nombre] = pygame.transform.scale(imagenes[nombre], tamano)
+    return {
+        "pantallas": {"carga": imagenes["carga"], "principal": imagenes["principal"],
+                      "controles": imagenes["controles"], "tutorial": imagenes["tutorial"],
+                      "creditos": imagenes["creditos"], "salir": imagenes["salir"]},
+        "botones": {"empezar": imagenes["empezar"], "NP": imagenes["NP"], "C": imagenes["C"],
+                    "T": imagenes["T"], "Cr": imagenes["Cr"], "S": imagenes["S"]},
+        "botones_rojo": {"NP_rojo": imagenes["NP_rojo"], "C_rojo": imagenes["C_rojo"],
+                         "T_rojo": imagenes["T_rojo"], "Cr_rojo": imagenes["Cr_rojo"], "S_rojo": imagenes["S_rojo"]}
+    }
+
+
+# --------------------------------------------------
+# CARGA DE IMÁGENES DE LA HISTORIA
+# --------------------------------------------------
+
+def imagen_lore():
+    archivos = [
+        "01_el_dia_que_el_mundo_murio.png", "02_el_metro.png", "03_la_huida.png",
+        "04_las_facciones.png", "05_los_infectados.png", "06_el_secreto_de_la_bomba.png",
+        "07_tu_historia_comienza.png", "08_final.png"
+    ]
+    pantallas = {f"Lore{i}": pygame.transform.scale(cargar_imagen(archivo), (ANCHO, ALTO))
+                 for i, archivo in enumerate(archivos, 1)}
+    return {"pantallas_lore": pantallas}
+
+
+# --------------------------------------------------
+# MÚSICA
+# --------------------------------------------------
+
+def musica():
+    click_MCarga = cargar_audio("Audio_vídeos/Menu_Carga.mp3")
+    click_Mprincipal = cargar_audio("Audio_vídeos/Menu_principal.mp3")
+    return click_MCarga, click_Mprincipal
+
+
+# --------------------------------------------------
+# ZONAS CLICABLES DE LOS BOTONES
+# --------------------------------------------------
+
+def rect_boton(imagenes_Mp):
+    rect_botonEM = imagenes_Mp["botones"]["empezar"].get_rect()
+    rect_botonEM.topleft = (400, 592)
+
+    rect_botonNP = imagenes_Mp["botones"]["NP"].get_rect()
+    rect_botonNP.topleft = (72, 351)
+
+    rect_botonC = imagenes_Mp["botones"]["C"].get_rect()
+    rect_botonC.topleft = (72, 488)
+
+    rect_botonT = imagenes_Mp["botones"]["T"].get_rect()
+    rect_botonT.topleft = (72, 426)
+
+    rect_botonCr = imagenes_Mp["botones"]["Cr"].get_rect()
+    rect_botonCr.topleft = (68, 544)
+
+    rect_botonS = imagenes_Mp["botones"]["S"].get_rect()
+    rect_botonS.topleft = (72, 604)
+
+    return {
+        "clickeable_AL": {
+            "Rb_EM": rect_botonEM,
+            "Rb_NP": rect_botonNP,
+            "Rb_C": rect_botonC,
+            "Rb_T": rect_botonT,
+            "Rb_Cr": rect_botonCr,
+            "Rb_S": rect_botonS,
+        }
+    }
+
+
+# --------------------------------------------------
+# MOVIMIENTO Y CÁMARA DEL JUEGO 2D LATERAL
+# --------------------------------------------------
+
+def movimiento(jugador_x, jugador_y, velocidad, velocidad_salto,
+               gravedad, suelo_y, saltar):
+
+    teclas = pygame.key.get_pressed()
+
+    # Caminar a izquierda y derecha
+    if teclas[pygame.K_a]:
+        jugador_x -= velocidad
+
+    if teclas[pygame.K_d]:
+        jugador_x += velocidad
+
+    # No salir por los lados del mundo
+    if jugador_x < 0:
+        jugador_x = 0
+    if jugador_x > ancho_mundo - 40:
+        jugador_x = ancho_mundo - 40
+
+    # Saltar solo cuando el jugador está en el suelo
+    jugador_en_suelo = jugador_y >= suelo_y - 50
+
+    if saltar and jugador_en_suelo:
+        velocidad_salto = -12
+
+    # Aplicar gravedad
+    jugador_y += velocidad_salto
+    velocidad_salto += gravedad
+
+    # Mantener al jugador sobre el suelo
+    if jugador_y > suelo_y - 50:
+        jugador_y = suelo_y - 50
+        velocidad_salto = 0
+
+    return jugador_x, jugador_y, velocidad_salto
+
+
+def actualizar_camara(jugador_x, ancho_mundo):
+    camara_x = jugador_x - ANCHO // 2
+
+    if camara_x < 0:
+        camara_x = 0
+
+    if camara_x > ancho_mundo - ANCHO:
+        camara_x = ancho_mundo - ANCHO
+
+    return camara_x
+
+
+def dibujar_juego(jugador_x, jugador_y, camara_x):
+    # Fondo provisional
+    ventana.fill((70, 80, 70))
+
+    # Unas formas de fondo provisionales para ver que el mundo se desplaza
+    pygame.draw.rect(
+        ventana,
+        (95, 105, 85),
+        (300 - camara_x, 450, 220, 200)
+    )
+    pygame.draw.rect(
+        ventana,
+        (95, 105, 85),
+        (1300 - camara_x, 400, 260, 250)
+    )
+    pygame.draw.rect(
+        ventana,
+        (95, 105, 85),
+        (2600 - camara_x, 430, 300, 220)
+    )
+
+    # Suelo del mundo
+    pygame.draw.rect(
+        ventana,
+        (80, 55, 40),
+        (0 - camara_x, suelo_y, ancho_mundo, ALTO - suelo_y)
+    )
+
+    # Jugador provisional: luego se sustituye por su imagen
+    pygame.draw.rect(
+        ventana,
+        (200, 50, 50),
+        (jugador_x - camara_x, jugador_y, 40, 50)
+    )
+
+
+# --------------------------------------------------
+# DIBUJAR PANTALLAS
+# --------------------------------------------------
+
+def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando,
+                     rectangulos_click, imagenes_lore):
+
+    if pantalla_actual == "carga":
+        ventana.blit(imagenes_Mp["pantallas"]["carga"], (0, 0))
+        ventana.blit(imagenes_Mp["botones"]["empezar"], (400, 592))
+
+    elif pantalla_actual == "principal":
+        ventana.blit(imagenes_Mp["pantallas"]["principal"], (0, 0))
+        posicion = pygame.mouse.get_pos()
+
+        if rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
+            ventana.blit(imagenes_Mp["botones_rojo"]["NP_rojo"], (55, 351))
+        else:
+            ventana.blit(imagenes_Mp["botones"]["NP"], (72, 351))
+
+        if rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
+            ventana.blit(imagenes_Mp["botones_rojo"]["T_rojo"], (45, 426))
+        else:
+            ventana.blit(imagenes_Mp["botones"]["T"], (72, 426))
+
+        if rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
+            ventana.blit(imagenes_Mp["botones_rojo"]["C_rojo"], (50, 488))
+        else:
+            ventana.blit(imagenes_Mp["botones"]["C"], (72, 488))
+
+        if rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
+            ventana.blit(imagenes_Mp["botones_rojo"]["Cr_rojo"], (40, 544))
+        else:
+            ventana.blit(imagenes_Mp["botones"]["Cr"], (68, 544))
+
+        if rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
+            ventana.blit(imagenes_Mp["botones_rojo"]["S_rojo"], (45, 604))
+        else:
+            ventana.blit(imagenes_Mp["botones"]["S"], (72, 604))
+
+    elif pantalla_actual == "Comienzo partida":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore1"], (0, 0))
+
+    elif pantalla_actual == "Controles":
+        ventana.blit(imagenes_Mp["pantallas"]["controles"], (0, 0))
+
+    elif pantalla_actual == "Tutorial":
+        ventana.blit(imagenes_Mp["pantallas"]["tutorial"], (0, 0))
+
+    elif pantalla_actual == "Creditos":
+        ventana.blit(imagenes_Mp["pantallas"]["creditos"], (0, 0))
+
+    elif pantalla_actual == "Salir":
+        ventana.blit(imagenes_Mp["pantallas"]["salir"], (0, 0))
+        pygame.display.update()
+        time.sleep(3)
+        jugando = False
+
+    elif pantalla_actual == "plore1":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore2"], (0, 0))
+
+    elif pantalla_actual == "plore2":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore3"], (0, 0))
+
+    elif pantalla_actual == "plore3":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore4"], (0, 0))
+
+    elif pantalla_actual == "plore4":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore5"], (0, 0))
+
+    elif pantalla_actual == "plore5":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore6"], (0, 0))
+
+    elif pantalla_actual == "plore6":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore7"], (0, 0))
+
+    elif pantalla_actual == "plore7":
+        ventana.blit(imagenes_lore["pantallas_lore"]["Lore8"], (0, 0))
+
+    elif pantalla_actual == "Juego":
+        dibujar_juego(jugador_x, jugador_y, camara_x)
+
+    return ventana, jugando
+
+
+# --------------------------------------------------
+# EVENTOS
+# --------------------------------------------------
+
+def eventos(jugando, pantalla_actual, rectangulos_click):
+    saltar = False
+
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            jugando = False
+
+        if evento.type == pygame.MOUSEBUTTONDOWN and pantalla_actual == "carga":
+            posicion = pygame.mouse.get_pos()
+            if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):
+                pantalla_actual = "principal"
+
+        if evento.type == pygame.MOUSEBUTTONDOWN and pantalla_actual == "principal":
+            posicion = pygame.mouse.get_pos()
+
+            if rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
+                pantalla_actual = "Comienzo partida"
+            elif rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
+                pantalla_actual = "Controles"
+            elif rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
+                pantalla_actual = "Tutorial"
+            elif rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
+                pantalla_actual = "Creditos"
+            elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
+                pantalla_actual = "Salir"
+
+        if evento.type == pygame.KEYDOWN:
+            if pantalla_actual == "Juego" and evento.key in (pygame.K_w, pygame.K_SPACE):
+                saltar = True
+
+            if evento.key == pygame.K_RETURN and pantalla_actual == "carga":
+                pantalla_actual = "principal"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "Comienzo partida":
+                pantalla_actual = "plore1"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore1":
+                pantalla_actual = "plore2"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore2":
+                pantalla_actual = "plore3"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore3":
+                pantalla_actual = "plore4"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore4":
+                pantalla_actual = "plore5"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore5":
+                pantalla_actual = "plore6"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore6":
+                pantalla_actual = "plore7"
+            elif evento.key == pygame.K_RETURN and pantalla_actual == "plore7":
+                pantalla_actual = "Juego"
+
+    return jugando, pantalla_actual, saltar
+
+
+# --------------------------------------------------
+# INICIO DEL PROGRAMA
+# --------------------------------------------------
+
+boton_pulsado = None
+tiempo_pulsacion = 0
+
+jugando = True
+pantalla_actual = "carga"
+pantalla_anterior = "carga"
+
+imagenes_Mp = imagen_Mp()
+imagenes_lore = None
+rectangulos_click = rect_boton(imagenes_Mp)
+
+click_MCarga, click_Mprincipal = musica()
+click_MCarga.play(-1)
+
+while jugando:
+    saltar = False
+
+    jugando, pantalla_actual, saltar = eventos(
+        jugando, pantalla_actual, rectangulos_click
+    )
+
+    # Cargar las imágenes de la historia al entrar en ella
+    if pantalla_actual != pantalla_anterior:
+        if pantalla_actual == "Comienzo partida":
+            imagenes_lore = imagen_lore()
+            click_MCarga.stop()
+            click_Mprincipal.stop()
+        elif pantalla_actual == "principal":
+            click_Mprincipal.play(-1)
+            click_MCarga.stop()
+        elif pantalla_actual == "carga":
+            click_MCarga.play(-1)
+            click_Mprincipal.stop()
+
+        pantalla_anterior = pantalla_actual
+
+    # Actualizar el movimiento solamente durante el juego
+    if pantalla_actual == "Juego":
+        jugador_x, jugador_y, velocidad_salto = movimiento(
+            jugador_x,
+            jugador_y,
+            velocidad,
+            velocidad_salto,
+            gravedad,
+            suelo_y,
+            saltar
+        )
+
+        camara_x = actualizar_camara(jugador_x, ancho_mundo)
+
+    # Dibujar la pantalla que corresponda
+    ventana, jugando = dibujar_pantalla(
+        pantalla_actual,
+        imagenes_Mp,
+        jugando,
+        rectangulos_click,
+        imagenes_lore
+    )
+
+    pygame.display.update()
+    reloj.tick(60)
+
+pygame.quit()
