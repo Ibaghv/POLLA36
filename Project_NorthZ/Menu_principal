@@ -148,13 +148,11 @@ def rect_boton(imagenes_Mp):
     }
     
 def rect_puertas():
-    # Ajusta estas coordenadas a la posición de cada puerta en tus imágenes.
-    puerta_JP1=pygame.Rect(1100, 250, 250, 400)
-    puerta_JP2=pygame.Rect(1100, 250, 250, 400)
-    return puerta_JP1, puerta_JP2
+    rect_botonNP=[""][""].get_rect()
+    rect_botonNP.topleft=(,)
+    
 
-
-def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore, imagenes_play):
+def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore):
     
     if pantalla_actual=="carga":
         ventana.blit(imagenes_Mp["pantallas"]["carga"],(0,0))
@@ -213,66 +211,70 @@ def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, i
         ventana.blit(imagenes_lore["pantallas_lore"]["Lore7"],(0,0)) 
     elif pantalla_actual=="plore7":
         ventana.blit(imagenes_lore["pantallas_lore"]["Lore8"],(0,0))
-    elif pantalla_actual == "JP_1":
-        ventana.blit(imagenes_play["JP_principal"]["JP1"], (0, 0))
-    elif pantalla_actual == "JP_2":
-        ventana.blit(imagenes_play["JP_principal"]["JP2"], (0, 0))
-    elif pantalla_actual == "JP_3":
-        ventana.blit(imagenes_play["JP_principal"]["JP3"], (0, 0))
-
     return ventana, jugando
+
+def dib_pantalla_juego(pantalla_actual, imagenes_play):
+    if pantalla_actual=="JP_1":
+        ventana.blit(imagenes_play["JP_principal"]["JP1"],(0,0))
+    if pantalla_actual=="JP_2":
+        ventana.blit(imagenes_play["JP_principal"]["JP2"],(0,0))
+    if pantalla_actual=="JP_3":
+        ventana.blit(imagenes_play["JP_principal"]["JP3"],(0,0))
+    return ventana,jugando
 
 def eventos(jugando, pantalla_actual, rectangulos_click, puerta_JP1, puerta_JP2):
     for evento in pygame.event.get():
-            if evento.type==pygame.QUIT:#si da a la X se cierrra
-                jugando=False
-            if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="carga":
-                posicion=pygame.mouse.get_pos()
-                if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):
-                    pantalla_actual="principal"
-            if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="principal":#¿Se ha hecho click?
-                posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
-                if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):#Click dentro de la zona 
-                    pantalla_actual="principal"
-                elif rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
-                    pantalla_actual="Comienzo partida"
-                elif rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
-                    pantalla_actual="Controles"
-                elif rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
-                    pantalla_actual="Tutorial"
-                elif rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
-                    pantalla_actual="Creditos"
-                elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
-                    pantalla_actual="Salir"
-            if evento.type == pygame.MOUSEBUTTONDOWN:
-                posicion = pygame.mouse.get_pos()
-                if pantalla_actual=="JP_1" and puerta_JP1.collidepoint(posicion):
-                    pantalla_actual="JP_2"
-                elif pantalla_actual=="JP_2" and puerta_JP2.collidepoint(posicion):
-                    pantalla_actual="JP_3"
-
-            if evento.type==pygame.KEYDOWN:
-                if evento.key==pygame.K_RETURN and pantalla_actual=="carga":#K_RETURN es enter
-                    pantalla_actual="principal"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="Comienzo partida":
-                    pantalla_actual="plore1"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore1":
-                    pantalla_actual="plore2"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore2":
-                    pantalla_actual="plore3"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore3":
-                    pantalla_actual="plore4"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore4":
-                    pantalla_actual="plore5"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore5":
-                    pantalla_actual="plore6"
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore6":
-                    pantalla_actual="plore7"    
-                elif evento.key==pygame.K_RETURN and pantalla_actual=="plore7":
-                    pantalla_actual="JP_1"
-                    
+        if evento.type==pygame.QUIT:#si da a la X se cierrra
+            jugando=False
+        if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="carga":
+            posicion=pygame.mouse.get_pos()
+            if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):
+                pantalla_actual="principal"
+        if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="principal":#¿Se ha hecho click?
+            posicion=pygame.mouse.get_pos()#Donde se ha hecho click?
+            if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):#Click dentro de la zona 
+                pantalla_actual="principal"
+            elif rectangulos_click["clickeable_AL"]["Rb_NP"].collidepoint(posicion):
+                pantalla_actual="Comienzo partida"
+            elif rectangulos_click["clickeable_AL"]["Rb_C"].collidepoint(posicion):
+                pantalla_actual="Controles"
+            elif rectangulos_click["clickeable_AL"]["Rb_T"].collidepoint(posicion):
+                pantalla_actual="Tutorial"
+            elif rectangulos_click["clickeable_AL"]["Rb_Cr"].collidepoint(posicion):
+                pantalla_actual="Creditos"
+            elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
+                pantalla_actual="Salir"
+        if evento.type==pygame.KEYDOWN:
+            if evento.key==pygame.K_RETURN and pantalla_actual=="carga":#K_RETURN es enter
+                pantalla_actual="principal"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="Comienzo partida":
+                pantalla_actual="plore1"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore1":
+                pantalla_actual="plore2"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore2":
+                pantalla_actual="plore3"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore3":
+                pantalla_actual="plore4"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore4":
+                pantalla_actual="plore5"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore5":
+                pantalla_actual="plore6"
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore6":
+                pantalla_actual="plore7"    
+            elif evento.key==pygame.K_RETURN and pantalla_actual=="plore7":
+                pantalla_actual="JP_1"
     return jugando, pantalla_actual
 
+def eventos_juego(jugando, pantalla_actual, rectangulos_click):
+    for evento in pygame.event.get():
+        if evento.type==pygame.QUIT:
+            jugando=False
+        if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="carga":
+            posicion=pygame.mouse.get_pos()
+            if rectangulos_click["clickeable_AL"]["Rb_EM"].collidepoint(posicion):
+                pantalla_actual="principal"
+        return jugando,pantalla_actual
+    
 def movimiento_jugador(x, y, velocidad_y, saltando):
     teclas=pygame.key.get_pressed()
     if teclas[pygame.K_d]:
@@ -288,7 +290,6 @@ def movimiento_jugador(x, y, velocidad_y, saltando):
         y=600
         velocidad_y=0
         saltando=False
-
     return x, y, velocidad_y, saltando
 
 def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, fotograma, tiempo):
@@ -307,7 +308,6 @@ def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, f
             imagen=izquierda2
     else:
         imagen=parado
-
     return imagen, fotograma, tiempo
 
 pygame.init()
@@ -335,10 +335,6 @@ click_MCarga, click_Mprincipal=musica()
 
 
 while jugando:
-    #1.Comprobar_loque_hace_el_jugador
-                
-    # 2.Actualizar_el_juego
-    # aquí.irá_el_movimiento,enemigos..
     jugando, pantalla_actual = eventos(jugando, pantalla_actual, rectangulos_click, puerta_JP1, puerta_JP2)
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="Comienzo partida":#Si entramos a lore
@@ -360,6 +356,7 @@ while jugando:
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore, imagenes_play)
+    ventana, jugando=dib_pantalla_juego(pantalla_actual, imagenes_play)
     #música
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="principal":
