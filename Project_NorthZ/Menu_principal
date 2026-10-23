@@ -114,8 +114,8 @@ def imagen_play():
     JP2=pygame.transform.scale(JP2,(1500,750))
     JP3=pygame.transform.scale(JP3,(1500,750))
     JP1_puerta=pygame.transform.scale(JP1_puerta,(89,346))
-    JP1_puerta=pygame.transform.scale(JP1_puerta,(258,632))
-    JP1_puerta=pygame.transform.scale(JP1_puerta,(270,640))
+    JP2_puerta=pygame.transform.scale(JP2_puerta,(258,632))
+    JP3_puerta=pygame.transform.scale(JP3_puerta,(270,640))
     
     return{
         "JP_principal":{
@@ -159,15 +159,16 @@ def rect_boton(imagenes_Mp):
     
 def rect_puertas(imagenes_play):
     rect_puertaJP1=imagenes_play["JP_puertas"]["JP1_puerta"].get_rect()
-    rect_puertaJP1.topleft=(307,1385)
+    rect_puertaJP1.topleft=(1385,307)
     rect_puertaJP2=imagenes_play["JP_puertas"]["JP2_puerta"].get_rect()
-    rect_puertaJP2.topleft=(110,1230)
+    rect_puertaJP2.topleft=(1230,110)
     rect_puertaJP3=imagenes_play["JP_puertas"]["JP3_puerta"].get_rect()
-    rect_puertaJP3.topleft=(228,1224)
+    rect_puertaJP3.topleft=(1224,228)
     return{
         "clickeable_puertas":{
             "Rb_JP1":rect_puertaJP1,
             "Rb_JP2":rect_puertaJP2,
+            "Rb_JP3":rect_puertaJP3
         }
     }    
 
@@ -241,7 +242,7 @@ def dib_pantalla_juego(pantalla_actual, imagenes_play):
         ventana.blit(imagenes_play["JP_principal"]["JP3"],(0,0))
     return ventana,jugando
 
-def eventos(jugando, pantalla_actual, rectangulos_click):
+def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas):
     for evento in pygame.event.get():
         if evento.type==pygame.QUIT:#si da a la X se cierrra
             jugando=False
@@ -282,26 +283,20 @@ def eventos(jugando, pantalla_actual, rectangulos_click):
                 pantalla_actual="plore7"    
             elif evento.key==pygame.K_RETURN and pantalla_actual=="plore7":
                 pantalla_actual="JP_1"
+#----------------------------------------------------------------------------------------------
+        if evento.type==pygame.MOUSEBUTTONDOWN and rectangulos_click_puertas is not None:
+            posicion=pygame.mouse.get_pos()
+            if pantalla_actual=="JP_1":
+                if rectangulos_click_puertas["clickeable_puertas"]["Rb_JP1"].collidepoint(posicion):
+                    pantalla_actual="JP_2"
+            elif pantalla_actual=="JP_2":
+                if rectangulos_click_puertas["clickeable_puertas"]["Rb_JP2"].collidepoint(posicion):
+                    pantalla_actual="JP_3"
+            elif pantalla_actual=="JP_3":
+                if rectangulos_click_puertas["clickeable_puertas"]["Rb_JP3"].collidepoint(posicion):
+                    pantalla_actual="JP_4"
     return jugando, pantalla_actual
 
-def eventos_juego(jugando, pantalla_actual, rectangulos_click_puertas):
-    for evento in pygame.event.get():
-        if evento.type==pygame.QUIT:
-            jugando=False
-        if evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="JP_1":
-            posicion=pygame.mouse.get_pos()
-            if rectangulos_click_puertas["clickeable_puertas"]["Rb_JP1"].collidepoint(posicion):
-                pantalla_actual="JP_2"
-        elif evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="JP_2":
-            posicion=pygame.mouse.get_pos()
-            if rectangulos_click_puertas["clickeable_puertas"]["Rb_JP2"].collidepoint(posicion):
-                pantalla_actual="JP_3"
-        elif evento.type==pygame.MOUSEBUTTONDOWN and pantalla_actual=="JP_3":
-            posicion=pygame.mouse.get_pos()
-            if rectangulos_click_puertas["clickeable_puertas"]["Rb_JP3"].collidepoint(posicion):
-                pantalla_actual="JP_4"
-        return jugando, pantalla_actual
-    
 def movimiento_jugador(x, y, velocidad_y, saltando):
     teclas=pygame.key.get_pressed()
     if teclas[pygame.K_d]:
@@ -345,25 +340,22 @@ jugando=True
 pantalla_actual="carga"#Estamos en la pantalla de carga
 pantalla_anterior="carga"
 
-imagenes_Mp=None
+imagenes_Mp=imagen_Mp()
+rectangulos_click=rect_boton(imagenes_Mp)
+
 imagenes_lore=None
 imagenes_play=None
-rectangulos_click=None
-
+rectangulos_click_puertas=None
 # Constantes movimiento
 VELOCIDAD=5
 SALTO=-15
 GRAVEDAD=0.8
 
-imagenes_Mp=imagen_Mp()
-rectangulos_click=rect_boton(imagenes_Mp)
-rectangulos_click_puertas=rect_puertas(imagenes_play)
 click_MCarga, click_Mprincipal=musica()
 
 
 while jugando:
-    jugando, pantalla_actual=eventos(jugando, pantalla_actual, rectangulos_click)
-    jugando, pantalla_actual=eventos_juego(jugando, pantalla_actual, rectangulos_click_puertas)
+    jugando, pantalla_actual=eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas)
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="Comienzo partida":#Si entramos a lore
             imagenes_Mp=None
