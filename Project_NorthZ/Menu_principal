@@ -149,7 +149,7 @@ def rect_boton(imagenes_Mp):
     
 def rect_puertas():
     rect_botonNP=[""][""].get_rect()
-    rect_botonNP.topleft=(,)
+    rect_botonNP.topleft=()
     
 
 def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore):
@@ -222,7 +222,7 @@ def dib_pantalla_juego(pantalla_actual, imagenes_play):
         ventana.blit(imagenes_play["JP_principal"]["JP3"],(0,0))
     return ventana,jugando
 
-def eventos(jugando, pantalla_actual, rectangulos_click, puerta_JP1, puerta_JP2):
+def eventos(jugando, pantalla_actual, rectangulos_click):
     for evento in pygame.event.get():
         if evento.type==pygame.QUIT:#si da a la X se cierrra
             jugando=False
@@ -322,7 +322,7 @@ imagenes_Mp=None
 imagenes_lore=None
 imagenes_play=None
 rectangulos_click=None
-puerta_JP1, puerta_JP2=rect_puertas()
+#puerta_JP1, puerta_JP2=rect_puertas()
 
 # Constantes movimiento
 VELOCIDAD=5
@@ -335,7 +335,7 @@ click_MCarga, click_Mprincipal=musica()
 
 
 while jugando:
-    jugando, pantalla_actual = eventos(jugando, pantalla_actual, rectangulos_click, puerta_JP1, puerta_JP2)
+    jugando, pantalla_actual = eventos(jugando, pantalla_actual, rectangulos_click)
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="Comienzo partida":#Si entramos a lore
             imagenes_Mp=None
@@ -355,7 +355,7 @@ while jugando:
         pantalla_anterior=pantalla_actual
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
-    ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore, imagenes_play)
+    ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore)
     ventana, jugando=dib_pantalla_juego(pantalla_actual, imagenes_play)
     #música
     if pantalla_actual!=pantalla_anterior:
