@@ -116,6 +116,8 @@ def imagen_play():
     JP4_puerta=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP4_puerta.png")
     
     Coche1_click=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coche1_click.png")
+    Coche1_clickd=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1_derecha.png")
+    Coche1_clicki=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1_izquierda.png")
     
     JP1=pygame.transform.scale(JP1,(1500,750))
     JP2=pygame.transform.scale(JP2,(1500,750))
@@ -128,6 +130,8 @@ def imagen_play():
     JP3_puerta=pygame.transform.scale(JP3_puerta,(270,640))
     JP4_puerta=pygame.transform.scale(JP4_puerta,(231,632))
     Coche1_click=pygame.transform.scale(Coche1_click,(598,240))
+    Coche1_clickd=pygame.transform.scale(Coche1_clickd,(256,196))
+    Coche1_clicki=pygame.transform.scale(Coche1_clicki,(332,237))
     
     return{
         "JP_principal":{
@@ -138,7 +142,9 @@ def imagen_play():
         "Coches":{
             "Coches1":Coches1,},
         "Coches_click":{
-            "Coches1_click":Coche1_click},
+            "Coches1_click":Coche1_click,
+            "Coches1_clickd":Coche1_clickd,
+            "Coches1_clicki":Coche1_clicki},
         "JP_puertas":{
             "JP1_puerta":JP1_puerta,
             "JP2_puerta":JP2_puerta,
@@ -186,7 +192,11 @@ def rect_puertas(imagenes_play):
     rect_puertaJP4.topleft=(1224,224)
     
     rect_coche1=imagenes_play["Coches_click"]["Coches1_click"].get_rect()    
-    rect_coche1.topleft=(348,482)
+    rect_coche1.topleft=(522,362)
+    rect_coche1d=imagenes_play["Coches_click"]["Coches1_clickd"].get_rect()
+    rect_coche1d.topleft=(750,135)
+    rect_coche1i=imagenes_play["Coches_click"]["Coches1_clicki"].get_rect()
+    rect_coche1i.topleft=(118,148)    
     
     return{
         "clickeable_puertas":{
@@ -195,7 +205,9 @@ def rect_puertas(imagenes_play):
             "Rb_JP3":rect_puertaJP3,
             "Rb_JP4":rect_puertaJP4},
         "clickeable_coche":{
-            "rectC1":rect_coche1,}
+            "rectC1":rect_coche1,
+            "rectC1d":rect_coche1d,
+            "rectC1i":rect_coche1i}
     }    
 
 def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore):
@@ -331,7 +343,12 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
                     pantalla_actual="JP_5"
                 elif rectangulos_click_puertas["clickeable_coche"]["rectC1"].collidepoint(posicion):
                     pantalla_actual="Coche1"
-
+            elif pantalla_actual=="Coche1":
+                if rectangulos_click_puertas["clickeable_coche"]["rectC1d"].collidepoint(posicion):
+                    pantalla_actual="Coche1d"
+                elif rectangulos_click_puertas["clickeable_coche"]["rectC1i"].collidepoint(posicion):
+                    pantalla_actual="Coche1i"    
+                 
     return jugando, pantalla_actual
 
 def movimiento_jugador(x, y, velocidad_y, saltando):
