@@ -3,13 +3,21 @@ import time
 pygame.init()
 
 def cargar_jugador():
-    parado=pygame.image.load("--")
-    derecha1=pygame.image.load("--")
-    derecha2=pygame.image.load("--")
-    izquierda1=pygame.image.load("--")
-    izquierda2=pygame.image.load("--")
+    parado=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_estático.jpeg").convert_alpha()
+    derecha1=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_derecha1.jpeg").convert_alpha()
+    derecha2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_derecha2.jpeg").convert_alpha()
+    izquierda1=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda1.jpeg").convert_alpha()
+    izquierda2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda2.jpeg").convert_alpha()
+    salto=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_salto.jpeg").convert_alpha()
+    
+    parado=pygame.transform.scale(parado,(300,400))
+    derecha1=pygame.transform.scale(derecha1,(300,400))
+    derecha2=pygame.transform.scale(derecha2,(300,400))
+    izquierda1=pygame.transform.scale(izquierda1,(300,400))
+    izquierda2=pygame.transform.scale(izquierda2,(300,400))
+    salto=pygame.transform.scale(salto,(300,400))
 
-    return parado, derecha1, derecha2, izquierda1, izquierda2
+    return parado, derecha1, derecha2, izquierda1, izquierda2, salto
 
 def imagen_Mp():
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menu_carga_prueba.jpeg")#Cargar la imagen dentro del código
@@ -368,7 +376,7 @@ def movimiento_jugador(x, y, velocidad_y, saltando):
         saltando=False
     return x, y, velocidad_y, saltando
 
-def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, fotograma, tiempo):
+def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, salto, fotograma, tiempo):
     if pygame.time.get_ticks()-tiempo>=100:
         fotograma+=1
         tiempo=pygame.time.get_ticks()
@@ -382,6 +390,8 @@ def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, f
             imagen=izquierda1
         else:
             imagen=izquierda2
+    elif teclas[pygame.K_SPACE]:
+        imagen=salto
     else:
         imagen=parado
     return imagen, fotograma, tiempo
@@ -401,9 +411,15 @@ imagenes_lore=None
 imagenes_play=None
 rectangulos_click_puertas=None
 # Constantes movimiento
-VELOCIDAD=5
-SALTO=-15
-GRAVEDAD=0.8
+VELOCIDAD=3
+SALTO=-1
+GRAVEDAD=0.2
+x=200
+y=800
+velocidad_y=0
+saltando=False
+fotograma=0
+tiempo=pygame.time.get_ticks()
 
 click_MCarga, click_Mprincipal=musica()
 
@@ -427,11 +443,17 @@ while jugando:
             rectangulos_click=None
             imagenes_play=imagen_play()
             rectangulos_click_puertas=rect_puertas(imagenes_play)
+            parado, derecha1, derecha2, izquierda1, izquierda2, salto= cargar_jugador()
         pantalla_anterior=pantalla_actual
     # 3.Dibujar_las_cosas
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore)
     ventana, jugando=dib_pantalla_juego(pantalla_actual, imagenes_play)
+    if pantalla_actual in ("JP_1", "JP_2", "JP_3", "JP_4"):
+        teclas=pygame.key.get_pressed()
+        x, y, velocidad_y, saltando=movimiento_jugador(x, y, velocidad_y, saltando)
+        imagen, fotograma, tiempo=animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2,salto, fotograma, tiempo)
+        ventana.blit(imagen,(x,y))
     #música
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="principal":
