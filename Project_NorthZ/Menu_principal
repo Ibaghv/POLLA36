@@ -3,19 +3,19 @@ import time
 pygame.init()
 
 def cargar_jugador():
-    parado=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_estático.jpeg").convert_alpha()
-    derecha1=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_derecha1.jpeg").convert_alpha()
-    derecha2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_derecha2.jpeg").convert_alpha()
-    izquierda1=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda1.jpeg").convert_alpha()
-    izquierda2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda2.jpeg").convert_alpha()
-    salto=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_salto.jpeg").convert_alpha()
-    
-    parado=pygame.transform.scale(parado,(300,400))
-    derecha1=pygame.transform.scale(derecha1,(300,400))
-    derecha2=pygame.transform.scale(derecha2,(300,400))
-    izquierda1=pygame.transform.scale(izquierda1,(300,400))
-    izquierda2=pygame.transform.scale(izquierda2,(300,400))
-    salto=pygame.transform.scale(salto,(300,400))
+    parado=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_estatico.png").convert_alpha()
+    derecha1=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_derecha1.png").convert_alpha()
+    derecha2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_derecha2.png").convert_alpha()
+    izquierda1=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda1.png").convert_alpha()
+    izquierda2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda2.png").convert_alpha()
+    salto=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_salto.png").convert_alpha()
+
+    parado=pygame.transform.scale(parado,(150,200))
+    derecha1=pygame.transform.scale(derecha1,(150,200))
+    derecha2=pygame.transform.scale(derecha2,(150,200))
+    izquierda1=pygame.transform.scale(izquierda1,(150,200))
+    izquierda2=pygame.transform.scale(izquierda2,(150,200))
+    salto=pygame.transform.scale(salto,(150,200))
 
     return parado, derecha1, derecha2, izquierda1, izquierda2, salto
 
@@ -360,20 +360,55 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
     return jugando, pantalla_actual
 
 def movimiento_jugador(x, y, velocidad_y, saltando):
-    teclas=pygame.key.get_pressed()
+    teclas = pygame.key.get_pressed()
+
+    # Zona de colision del personaje
+    jugador = pygame.Rect(x + 80, y + 170, 140, 220)
+
+    # Movimiento horizontal
+    x_anterior = x
+
     if teclas[pygame.K_d]:
-        x+=VELOCIDAD
+        x += VELOCIDAD
     elif teclas[pygame.K_a]:
-        x-=VELOCIDAD
+        x -= VELOCIDAD
+    # Saltar
     if teclas[pygame.K_SPACE] and not saltando:
         velocidad_y=SALTO
         saltando=True
+
+    # Comprobar colisiones con los muebles
+    for obstaculo in obstaculos:
+        if jugador.colliderect(obstaculo):
+            x=x_anterior
+            jugador.x=x+80
+            break
+    # Gravedad
     velocidad_y+=GRAVEDAD
     y+=velocidad_y
-    if y>=600:
-        y=600
+
+    jugador.y=y+170
+    # Colisiones verticales
+    for obstaculo in obstaculos:
+        if jugador.colliderect(obstaculo):
+            if velocidad_y>0:
+                y=obstaculo.top-390
+                saltando=False
+            elif velocidad_y<0:
+                y=obstaculo.bottom-170
+            velocidad_y=0
+            jugador.y=y+170
+    # Limite
+    if y>=SUELO-ALTO_JUGADOR:
+        y=SUELO-ALTO_JUGADOR
         velocidad_y=0
         saltando=False
+    if y<0:
+        y=0
+        velocidad_y=0
+    x=max(0,min(x, 1500-ANCHO_JUGADOR))
+    jugador.x=x+80
+
     return x, y, velocidad_y, saltando
 
 def animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, salto, fotograma, tiempo):
@@ -410,16 +445,25 @@ rectangulos_click=rect_boton(imagenes_Mp)
 imagenes_lore=None
 imagenes_play=None
 rectangulos_click_puertas=None
+
 # Constantes movimiento
 VELOCIDAD=3
 SALTO=-1
 GRAVEDAD=0.2
 x=200
-y=800
+y=430
 velocidad_y=0
 saltando=False
 fotograma=0
 tiempo=pygame.time.get_ticks()
+ANCHO_JUGADOR=300
+ALTO_JUGADOR=400
+SUELO=600
+obstaculos=[pygame.Rect(65,390,155,145),    # Cajas
+    pygame.Rect(280,275,130,250),   # Caballete
+    pygame.Rect(595,320,310,150),   # Futbolin
+    pygame.Rect(960,320,380,160),   # Sofa y mesa
+    pygame.Rect(1280,380,130,100)]   # Bolsas
 
 click_MCarga, click_Mprincipal=musica()
 
