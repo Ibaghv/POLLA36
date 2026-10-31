@@ -10,7 +10,7 @@ def cargar_jugador():
     izquierda2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda2.png").convert_alpha()
     salto=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_salto.png").convert_alpha()
 
-    parado=pygame.transform.scale(parado,(210,350))
+    parado=pygame.transform.scale(parado,(230,370))
     derecha1=pygame.transform.scale(derecha1,(190,330))
     derecha2=pygame.transform.scale(derecha2,(190,330))
     izquierda1=pygame.transform.scale(izquierda1,(190,330))
@@ -359,27 +359,27 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
                  
     return jugando, pantalla_actual
 
+
 def movimiento_jugador(x,y,velocidad_y,saltando):
     teclas=pygame.key.get_pressed()
-    
-    suelo=580
-    if pantalla_actual=="JP_1":# Suelo de cada habitacion
-        suelo=580
+
+    if pantalla_actual=="JP_1":
+        suelo=550
     elif pantalla_actual=="JP_2":
         suelo=600
     elif pantalla_actual=="JP_3" or pantalla_actual=="JP_4":
-        suelo=620    
+        suelo=620
 
-    if teclas[pygame.K_SPACE] and not saltando:# Salto 
+    if teclas[pygame.K_SPACE] and not saltando:
         velocidad_y=FUERZA_SALTO
         saltando=True
 
     y_anterior=y
     velocidad_y+=GRAVEDAD
     y+=velocidad_y
-    
+
     movimiento_x=0
-    if teclas[pygame.K_d]:#Movimiento horizontal
+    if teclas[pygame.K_d]:
         movimiento_x=VELOCIDAD
     if teclas[pygame.K_a]:
         movimiento_x=-VELOCIDAD
@@ -387,28 +387,35 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
     nuevo_x=x+movimiento_x
     nuevo_rect=pygame.Rect(nuevo_x,y,ANCHO_JUGADOR,ALTO_JUGADOR)
 
+    obstaculos_habitacion=[]
+    if pantalla_actual=="JP_1":
+        obstaculo_futbolin_JP1=pygame.Rect(580,415,310,110)
+        obstaculos_habitacion.append(obstaculo_futbolin_JP1)
 
-    plataformas=[]
-    if pantalla_actual=="JP_2":
-        plataformas=[pygame.Rect(480,442,520,82)]#Mesa grande JP2
-    for plataforma in plataformas:
-        if nuevo_rect.colliderect(plataforma):
+    elif pantalla_actual=="JP_2":
+        obstaculo_mesa_JP2=pygame.Rect(410,442,620,82)
+        obstaculos_habitacion.append(obstaculo_mesa_JP2)
+
+    # Colision lateral con los obstaculos
+    for obstaculo in obstaculos_habitacion:
+        if nuevo_rect.colliderect(obstaculo):
             nuevo_rect.x=x
             break
 
     x=nuevo_rect.x
     x=max(0,min(x,1500-ANCHO_JUGADOR))
 
-    # Aterrizar encima de la plataforma al caer desde arriba.
+    # Aterrizar encima de los obstaculos
     jugador_abajo=y+ALTO_JUGADOR
     jugador_abajo_anterior=y_anterior+ALTO_JUGADOR
 
     if velocidad_y>=0:
-        for plataforma in plataformas:
-            toca_plataforma=(x+ANCHO_JUGADOR>plataforma.left and x<plataforma.right)
-            cae_encima=(jugador_abajo_anterior<=plataforma.top and jugador_abajo>=plataforma.top)
-            if toca_plataforma and cae_encima:
-                y=plataforma.top-ALTO_JUGADOR
+        for obstaculo in obstaculos_habitacion:
+            toca_obstaculo=(x+ANCHO_JUGADOR>obstaculo.left and x<obstaculo.right)
+            cae_encima=(jugador_abajo_anterior<=obstaculo.top and jugador_abajo>=obstaculo.top)
+
+            if toca_obstaculo and cae_encima:
+                y=obstaculo.top-ALTO_JUGADOR
                 velocidad_y=0
                 saltando=False
                 break
@@ -420,6 +427,7 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
         saltando=False
 
     return x,y,velocidad_y,saltando
+
 
 def animar_jugador(teclas,parado,derecha1,derecha2,izquierda1,izquierda2,salto,fotograma,tiempo,saltando):
     if pygame.time.get_ticks()-tiempo>=100:
@@ -478,6 +486,13 @@ reloj=pygame.time.Clock()
 
 while jugando:
     jugando, pantalla_actual=eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas)
+    if pantalla_actual!=pantalla_anterior:
+        if pantalla_actual=="JP_2":
+            x=70
+        elif pantalla_actual=="JP_3":
+            x=70
+        elif pantalla_actual=="JP_4":
+            x=70
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="Comienzo partida":#Si entramos a lore
             imagenes_Mp=None
