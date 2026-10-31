@@ -10,12 +10,12 @@ def cargar_jugador():
     izquierda2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda2.png").convert_alpha()
     salto=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_salto.png").convert_alpha()
 
-    parado=pygame.transform.scale(parado,(125,220))
-    derecha1=pygame.transform.scale(derecha1,(125,220))
-    derecha2=pygame.transform.scale(derecha2,(125,220))
-    izquierda1=pygame.transform.scale(izquierda1,(125,220))
-    izquierda2=pygame.transform.scale(izquierda2,(125,220))
-    salto=pygame.transform.scale(salto,(125,220))
+    parado=pygame.transform.scale(parado,(210,350))
+    derecha1=pygame.transform.scale(derecha1,(190,330))
+    derecha2=pygame.transform.scale(derecha2,(190,330))
+    izquierda1=pygame.transform.scale(izquierda1,(190,330))
+    izquierda2=pygame.transform.scale(izquierda2,(190,330))
+    salto=pygame.transform.scale(salto,(190,330))
 
     return parado, derecha1, derecha2, izquierda1, izquierda2, salto
 
@@ -361,26 +361,45 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
 
 def movimiento_jugador(x,y,velocidad_y,saltando):
     teclas=pygame.key.get_pressed()
-    suelo=690
+    
+    suelo=580
+    if pantalla_actual=="JP_1":# Suelo de cada habitacion
+        suelo=580
+    elif pantalla_actual=="JP_2":
+        suelo=600
+    elif pantalla_actual=="JP_3" or pantalla_actual=="JP_4":
+        suelo=620    
 
-    if teclas[pygame.K_d]:
-        x+=VELOCIDAD
-    if teclas[pygame.K_a]:
-        x-=VELOCIDAD
-    # Salto
-    if teclas[pygame.K_SPACE] and not saltando:
+    if teclas[pygame.K_SPACE] and not saltando:# Salto 
         velocidad_y=FUERZA_SALTO
         saltando=True
+
     y_anterior=y
     velocidad_y+=GRAVEDAD
     y+=velocidad_y
     
-    # Limites de las paredes
-    x=max(0,min(x,1500-ANCHO_JUGADOR))
-    # Plataformas: solo se puede aterrizar al caer desde arriba
+    movimiento_x=0
+    if teclas[pygame.K_d]:#Movimiento horizontal
+        movimiento_x=VELOCIDAD
+    if teclas[pygame.K_a]:
+        movimiento_x=-VELOCIDAD
+
+    nuevo_x=x+movimiento_x
+    nuevo_rect=pygame.Rect(nuevo_x,y,ANCHO_JUGADOR,ALTO_JUGADOR)
+
+
     plataformas=[]
     if pantalla_actual=="JP_2":
-        plataformas=[pygame.Rect(590,500,330,35)]
+        plataformas=[pygame.Rect(590,500,400,45)]#Mesa grande JP2
+    for plataforma in plataformas:
+        if nuevo_rect.colliderect(plataforma):
+            nuevo_rect.x=x
+            break
+
+    x=nuevo_rect.x
+    x=max(0,min(x,1500-ANCHO_JUGADOR))
+
+    # Aterrizar encima de la plataforma al caer desde arriba.
     jugador_abajo=y+ALTO_JUGADOR
     jugador_abajo_anterior=y_anterior+ALTO_JUGADOR
 
@@ -394,7 +413,7 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
                 saltando=False
                 break
 
-    # Suelo de cada habitacion
+    # Suelo
     if y+ALTO_JUGADOR>=suelo:
         y=suelo-ALTO_JUGADOR
         velocidad_y=0
@@ -441,14 +460,14 @@ rectangulos_click_puertas=None
 
 #Constantes movimiento
 VELOCIDAD=2
-FUERZA_SALTO=-12
-GRAVEDAD=0.5
-ANCHO_JUGADOR=125
-ALTO_JUGADOR=220
+FUERZA_SALTO=-16
+GRAVEDAD=0.6
+ANCHO_JUGADOR=155
+ALTO_JUGADOR=270
 SUELO=690
 
 x=200
-y=SUELO-ALTO_JUGADOR
+y=650-ALTO_JUGADOR
 velocidad_y=0
 saltando=False
 fotograma=0
