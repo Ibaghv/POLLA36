@@ -390,7 +390,7 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
 
     plataformas=[]
     if pantalla_actual=="JP_2":
-        plataformas=[pygame.Rect(590,500,400,45)]#Mesa grande JP2
+        plataformas=[pygame.Rect(480,442,520,82)]#Mesa grande JP2
     for plataforma in plataformas:
         if nuevo_rect.colliderect(plataforma):
             nuevo_rect.x=x
