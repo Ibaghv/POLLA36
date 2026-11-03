@@ -10,7 +10,7 @@ def cargar_jugador():
     izquierda2=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_izquierda2.png").convert_alpha()
     salto=pygame.image.load("Project_NorthZ/Imágenes/Personajes/Fran_salto.png").convert_alpha()
 
-    parado=pygame.transform.scale(parado,(230,370))
+    parado=pygame.transform.scale(parado,(260,370))
     derecha1=pygame.transform.scale(derecha1,(190,330))
     derecha2=pygame.transform.scale(derecha2,(190,330))
     izquierda1=pygame.transform.scale(izquierda1,(190,330))
@@ -24,7 +24,7 @@ def imagen_Mp():
     Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menú_principal.png")
     Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Enpezar_Menu_carga.png")
     Nueva_partida=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Nueva_partida_MP.png")
-    Controles=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP.png")
+    Controles=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Controles negro.jpeg")
     Tutorial=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Turotial_MP.png")
     Creditos=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP.png")
     Salir=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Salir_MP.png")
@@ -468,8 +468,8 @@ rectangulos_click_puertas=None
 
 #Constantes movimiento
 VELOCIDAD=2
-FUERZA_SALTO=-16
-GRAVEDAD=0.6
+FUERZA_SALTO=-13
+GRAVEDAD=0.3
 ANCHO_JUGADOR=155
 ALTO_JUGADOR=270
 SUELO=690
