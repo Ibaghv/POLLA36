@@ -131,6 +131,8 @@ def imagen_play():
     Coche1_clickd=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1_derecha.png")
     Coche1_clicki=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1_izquierda.png")
     
+    zombie1clik=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Zombie1clik.png")
+    
     JP1=pygame.transform.scale(JP1,(1500,750))
     JP2=pygame.transform.scale(JP2,(1500,750))
     JP3=pygame.transform.scale(JP3,(1500,750))
@@ -145,6 +147,7 @@ def imagen_play():
     Coche1_click=pygame.transform.scale(Coche1_click,(598,240))
     Coche1_clickd=pygame.transform.scale(Coche1_clickd,(256,196))
     Coche1_clicki=pygame.transform.scale(Coche1_clicki,(332,237))
+    zombie1clik=pygame.transform.scale(zombie1clik,(192,511))
     
     return{
         "JP_principal":{
@@ -163,7 +166,9 @@ def imagen_play():
             "JP1_puerta":JP1_puerta,
             "JP2_puerta":JP2_puerta,
             "JP3_puerta":JP3_puerta,
-            "JP4_puerta":JP4_puerta}
+            "JP4_puerta":JP4_puerta},
+        "Zombies":{
+            "Zombie1clik":zombie1clik}
            }
     
 def musica():
@@ -302,8 +307,11 @@ def dib_pantalla_juego(pantalla_actual, imagenes_play):
         ventana.blit(imagenes_play["JP_principal"]["JP4"],(0,0))
     elif pantalla_actual=="JP_5":
         ventana.blit(imagenes_play["JP_principal"]["JP5"],(0,0))
+        
     elif pantalla_actual=="Coche1":
         ventana.blit(imagenes_play["Coches"]["Coches1"],(0,0))
+        
+    #elif pantalla_actual=="Zombie1":
     return ventana,jugando
 
 def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas):
