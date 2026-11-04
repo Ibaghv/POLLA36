@@ -37,6 +37,7 @@ def imagen_Mp():
     Tutorial_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Tutorial_rojo.png")
     Creditos_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP_rojo.png")
     Salir_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Salir_MP_rojo.png")
+    fcliki=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/fcliki.png")
     
     Menu_carga=pygame.transform.scale(Menu_carga,(1500, 750))#Transformar la imagen a un tamaño
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500, 750))
@@ -55,6 +56,7 @@ def imagen_Mp():
     Tutorial_rojo=pygame.transform.scale(Tutorial_rojo,(230,55))
     Creditos_rojo=pygame.transform.scale(Creditos_rojo,(200,45))
     Salir_rojo=pygame.transform.scale(Salir_rojo,(175,45))
+    fcliki=pygame.transform.scale(fcliki,(190,80))
         
     return{
     "pantallas": {
@@ -70,7 +72,8 @@ def imagen_Mp():
         "C": Controles,
         "T": Tutorial,
         "Cr": Creditos,
-        "S": Salir},
+        "S": Salir,
+        "volver":fcliki},
     "botones_rojo": {
         "NP_rojo": Nueva_partida_rojo,
         "C_rojo": Controles_rojo,
@@ -178,6 +181,8 @@ def rect_boton(imagenes_Mp):
     rect_botonCr.topleft=(68,544)
     rect_botonS=imagenes_Mp["botones"]["S"].get_rect()
     rect_botonS.topleft=(72,604)
+    rect_botonvolver=imagenes_Mp["botones"]["volver"].get_rect()
+    rect_botonvolver.topleft=(100,100)
     
     return{
         "clickeable_AL":{
@@ -186,7 +191,8 @@ def rect_boton(imagenes_Mp):
             "Rb_C":rect_botonC,
             "Rb_T":rect_botonT,
             "Rb_Cr":rect_botonCr,
-            "Rb_S":rect_botonS}
+            "Rb_S":rect_botonS,
+            "RB_volver":rect_botonvolver}
     }
     
 def rect_puertas(imagenes_play):
@@ -254,10 +260,13 @@ def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, i
         
     elif pantalla_actual=="Controles":
         ventana.blit(imagenes_Mp["pantallas"]["controles"],(0,0))
+        ventana.blit(imagenes_Mp["botones"]["volver"],(1200,80))
     elif pantalla_actual=="Tutorial":
         ventana.blit(imagenes_Mp["pantallas"]["tutorial"],(0,0))
+        ventana.blit(imagenes_Mp["botones"]["volver"],(1200,80))
     elif pantalla_actual=="Creditos":
         ventana.blit(imagenes_Mp["pantallas"]["creditos"],(0,0))
+        ventana.blit(imagenes_Mp["botones"]["volver"],(1200,80))
     elif pantalla_actual=="Salir":
         ventana.blit(imagenes_Mp["pantallas"]["salir"],(0,0))
         pygame.display.update()
@@ -315,6 +324,8 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
                 pantalla_actual="Creditos"
             elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
                 pantalla_actual="Salir"
+            elif rectangulos_click["clickeable_AL"]["Rb_volver"].collidepoint(posicion):
+                pantalla_actual="principal"
         if evento.type==pygame.KEYDOWN:
             if evento.key==pygame.K_RETURN and pantalla_actual=="carga":#K_RETURN es enter
                 pantalla_actual="principal"
@@ -427,7 +438,6 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
         saltando=False
 
     return x,y,velocidad_y,saltando
-
 
 def animar_jugador(teclas,parado,derecha1,derecha2,izquierda1,izquierda2,salto,fotograma,tiempo,saltando):
     if pygame.time.get_ticks()-tiempo>=100:
