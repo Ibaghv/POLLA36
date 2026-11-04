@@ -118,6 +118,7 @@ def imagen_play():
     JP2=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP2.jpeg")
     JP3=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP3.jpeg")
     JP4=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP4.jpeg")
+    JP5=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP5.jpeg")
     
     Coches1=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1.jpeg")
     
@@ -134,6 +135,7 @@ def imagen_play():
     JP2=pygame.transform.scale(JP2,(1500,750))
     JP3=pygame.transform.scale(JP3,(1500,750))
     JP4=pygame.transform.scale(JP4,(1500,750))
+    JP5=pygame.transform.scale(JP5,(1500,750))
     Coches1=pygame.transform.scale(Coches1,(1500,750))
     
     JP1_puerta=pygame.transform.scale(JP1_puerta,(89,346))
@@ -149,7 +151,8 @@ def imagen_play():
             "JP1":JP1,
             "JP2":JP2,
             "JP3":JP3,
-            "JP4":JP4,},
+            "JP4":JP4,
+            "JP5":JP5},
         "Coches":{
             "Coches1":Coches1,},
         "Coches_click":{
@@ -182,7 +185,7 @@ def rect_boton(imagenes_Mp):
     rect_botonS=imagenes_Mp["botones"]["S"].get_rect()
     rect_botonS.topleft=(72,604)
     rect_botonvolver=imagenes_Mp["botones"]["volver"].get_rect()
-    rect_botonvolver.topleft=(100,100)
+    rect_botonvolver.topleft=(1200,80)
     
     return{
         "clickeable_AL":{
@@ -297,7 +300,8 @@ def dib_pantalla_juego(pantalla_actual, imagenes_play):
         ventana.blit(imagenes_play["JP_principal"]["JP3"],(0,0))
     elif pantalla_actual=="JP_4":
         ventana.blit(imagenes_play["JP_principal"]["JP4"],(0,0))
-    #elif pantalla_actual=="JP_5":
+    elif pantalla_actual=="JP_5":
+        ventana.blit(imagenes_play["JP_principal"]["JP5"],(0,0))
     elif pantalla_actual=="Coche1":
         ventana.blit(imagenes_play["Coches"]["Coches1"],(0,0))
     return ventana,jugando
@@ -324,8 +328,17 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
                 pantalla_actual="Creditos"
             elif rectangulos_click["clickeable_AL"]["Rb_S"].collidepoint(posicion):
                 pantalla_actual="Salir"
-            elif rectangulos_click["clickeable_AL"]["Rb_volver"].collidepoint(posicion):
-                pantalla_actual="principal"
+        if evento.type==pygame.MOUSEBUTTONDOWN:
+            posicion=pygame.mouse.get_pos()
+            if pantalla_actual=="Controles":
+                if rectangulos_click["clickeable_AL"]["RB_volver"].collidepoint(posicion):
+                    pantalla_actual="principal"
+            elif pantalla_actual=="Tutorial":
+                if rectangulos_click["clickeable_AL"]["RB_volver"].collidepoint(posicion):
+                    pantalla_actual="principal"
+            elif pantalla_actual=="Creditos":
+                if rectangulos_click["clickeable_AL"]["RB_volver"].collidepoint(posicion):
+                    pantalla_actual="principal"
         if evento.type==pygame.KEYDOWN:
             if evento.key==pygame.K_RETURN and pantalla_actual=="carga":#K_RETURN es enter
                 pantalla_actual="principal"
@@ -370,7 +383,6 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
                  
     return jugando, pantalla_actual
 
-
 def movimiento_jugador(x,y,velocidad_y,saltando):
     teclas=pygame.key.get_pressed()
 
@@ -380,7 +392,8 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
         suelo=600
     elif pantalla_actual=="JP_3" or pantalla_actual=="JP_4":
         suelo=620
-
+    elif pantalla_actual=="JP_5":
+        suelo=590
     if teclas[pygame.K_SPACE] and not saltando:
         velocidad_y=FUERZA_SALTO
         saltando=True
@@ -503,6 +516,8 @@ while jugando:
             x=70
         elif pantalla_actual=="JP_4":
             x=70
+        elif pantalla_actual=="JP_5":
+            x=1200
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="Comienzo partida":#Si entramos a lore
             imagenes_Mp=None
@@ -526,7 +541,7 @@ while jugando:
     # aquí.dibujaremos_imágenes_personajes_fondo...
     ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore)
     ventana, jugando=dib_pantalla_juego(pantalla_actual, imagenes_play)
-    if pantalla_actual in ("JP_1", "JP_2", "JP_3", "JP_4"):
+    if pantalla_actual in ("JP_1", "JP_2", "JP_3", "JP_4", "JP_5"):
         teclas=pygame.key.get_pressed()
         x, y, velocidad_y, saltando=movimiento_jugador(x, y, velocidad_y, saltando)
         imagen, fotograma, tiempo=animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, salto, fotograma, tiempo, saltando)       
