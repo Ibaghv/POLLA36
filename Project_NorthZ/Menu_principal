@@ -120,6 +120,8 @@ def imagen_play():
     JP4=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP4.jpeg")
     JP5=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP5.jpeg")
     
+    Zombie1=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Zombi1.jpeg")
+    
     Coches1=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1.jpeg")
     
     JP1_puerta=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP1_puerta.png")
@@ -138,6 +140,7 @@ def imagen_play():
     JP3=pygame.transform.scale(JP3,(1500,750))
     JP4=pygame.transform.scale(JP4,(1500,750))
     JP5=pygame.transform.scale(JP5,(1500,750))
+    Zombie1=pygame.transform.scale(Zombie1(1500,750))
     Coches1=pygame.transform.scale(Coches1,(1500,750))
     
     JP1_puerta=pygame.transform.scale(JP1_puerta,(89,346))
@@ -168,6 +171,7 @@ def imagen_play():
             "JP3_puerta":JP3_puerta,
             "JP4_puerta":JP4_puerta},
         "Zombies":{
+            "Zombie1":Zombie1,
             "Zombie1clik":zombie1clik}
            }
     
@@ -220,6 +224,9 @@ def rect_puertas(imagenes_play):
     rect_coche1i=imagenes_play["Coches_click"]["Coches1_clicki"].get_rect()
     rect_coche1i.topleft=(118,148)    
     
+    rect_botonZ1=imagen_play["Zombies"]["Zombie1"].get_rect()
+    rect_botonZ1.topleft=(255,365)
+    
     return{
         "clickeable_puertas":{
             "Rb_JP1":rect_puertaJP1,
@@ -229,8 +236,10 @@ def rect_puertas(imagenes_play):
         "clickeable_coche":{
             "rectC1":rect_coche1,
             "rectC1d":rect_coche1d,
-            "rectC1i":rect_coche1i}
-    }    
+            "rectC1i":rect_coche1i},
+        "clickeable_zombie":{
+            "Z1":rect_botonZ1}
+    }
 
 def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore):
     
@@ -311,7 +320,8 @@ def dib_pantalla_juego(pantalla_actual, imagenes_play):
     elif pantalla_actual=="Coche1":
         ventana.blit(imagenes_play["Coches"]["Coches1"],(0,0))
         
-    #elif pantalla_actual=="Zombie1":
+    elif pantalla_actual=="Zombie1":
+        ventana.blit(imagenes_play["Zombies"]["Zombie1"],(0,0))
     return ventana,jugando
 
 def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas):
@@ -388,6 +398,7 @@ def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puert
                     pantalla_actual="Coche1d"
                 elif rectangulos_click_puertas["clickeable_coche"]["rectC1i"].collidepoint(posicion):
                     pantalla_actual="Coche1i"    
+            elif pantalla_actual==""
                  
     return jugando, pantalla_actual
 
