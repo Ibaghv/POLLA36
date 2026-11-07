@@ -439,6 +439,87 @@ def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, i
         ventana.blit(imagenes_lore["pantallas_lore"]["Lore8"],(0,0))
     return ventana, jugando
 
+def dib_pantalla_juego(pantalla_actual, imagenes_play):
+    if pantalla_actual=="JP_1":
+        ventana.blit(imagenes_play["JP_principal"]["JP1"],(0,0))
+    elif pantalla_actual=="JP_2":
+        ventana.blit(imagenes_play["JP_principal"]["JP2"],(0,0))
+    elif pantalla_actual=="JP_3":
+        ventana.blit(imagenes_play["JP_principal"]["JP3"],(0,0))
+    elif pantalla_actual=="JP_4":
+        ventana.blit(imagenes_play["JP_principal"]["JP4"],(0,0))
+    elif pantalla_actual=="JP_5":
+        ventana.blit(imagenes_play["JP_principal"]["JP5"],(0,0))
+        ventana.blit(imagenes_play["Zombies"]["Zombie1clik"],(234,252))
+        
+    elif pantalla_actual=="JP_6":
+        ventana.blit(imagenes_play["JP_principal"]["JP6"],(0,0))
+        ventana.blit(imagenes_play["JP_puertas"]["JP6_puerta"],(1290,90))
+    elif pantalla_actual=="JP_7":
+        ventana.blit(imagenes_play["JP_principal"]["JP7"],(0,0))
+        ventana.blit(imagenes_play["Puerta_PM"]["JP7_puerta"],(205,104))
+
+    elif pantalla_actual=="Coche1":
+        ventana.blit(imagenes_play["Coches"]["Coches1"],(0,0))
+    elif pantalla_actual=="Coche2":
+        ventana.blit(imagenes_play["Coches"]["Coche2"],(0,0))
+        ventana.blit(imagenes_play["Coches"]["Puerta_coche2"],(418,428))
+        
+    elif pantalla_actual=="PM1_lucha":
+        ventana.blit(imagenes_play["Luchas_PM"]["PM1"],(0,0))
+
+        dibujar_barra_PM(imagenes_play["Barras_PM1"]["PM1"],vida_pm1,(205,141))
+        dibujar_barra_PM(imagenes_play["Barras_PM1"]["Fran"],vida_fran_pm1,(1099,454))
+
+        ventana.blit(imagenes_play["Botones_combate"]["Luchar"],(747,579))
+        ventana.blit(imagenes_play["Botones_combate"]["Defensa"],(1118,579))
+        ventana.blit(imagenes_play["Botones_combate"]["Curar"],(747,668))
+        ventana.blit(imagenes_play["Botones_combate"]["Huir"],(1118,668))
+
+        fuente=pygame.font.Font(None,40)
+        if vida_pm1==0:
+            texto=fuente.render("PM1 DERROTADO",True,(255,255,255))
+            ventana.blit(texto,(550,390))
+        elif vida_fran_pm1==0:
+            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
+            ventana.blit(texto,(550,390))
+    elif pantalla_actual=="PM2_lucha":
+        ventana.blit(imagenes_play["Luchas_PM"]["PM2"],(0,0))
+        fuente=pygame.font.Font(None,38)
+        texto=fuente.render(str(vida_pm2)+"/150",True,(255,255,255))
+        ventana.blit(texto,(130,75))
+        if vida_fran_pm2 in imagenes_play["Barras_PM1"]["Fran"]:
+            dibujar_barra_PM(imagenes_play["Barras_PM1"]["Fran"],vida_fran_pm2,(1099,454))
+        else:
+            texto=fuente.render(str(vida_fran_pm2)+"/100",True,(255,255,255))
+            ventana.blit(texto,(1350,470))
+        if vida_pm2==0:
+            texto=fuente.render("PM2 DERROTADO",True,(255,255,255))
+            ventana.blit(texto,(600,390))
+        elif vida_fran_pm2==0:
+            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
+            ventana.blit(texto,(600,390))
+        
+    elif pantalla_actual=="Z1_lucha":
+        ventana.blit(imagenes_play["Zombies"]["Zombie1"],(0,0))
+
+        ventana.blit(imagenes_play["Vida_Zombie"][vida_zombie],(205,141))
+        ventana.blit(imagenes_play["Vida_Fran"][vida_fran],(1099,454))
+
+        ventana.blit(imagenes_play["Botones_combate"]["Luchar"],(747,579))
+        ventana.blit(imagenes_play["Botones_combate"]["Defensa"],(1118,579))
+        ventana.blit(imagenes_play["Botones_combate"]["Curar"],(747,668))
+        ventana.blit(imagenes_play["Botones_combate"]["Huir"],(1118,668))
+
+        fuente=pygame.font.Font(None,40)
+        if vida_zombie==0:
+            texto=fuente.render("ZOMBIE DERROTADO",True,(255,255,255))
+            ventana.blit(texto,(550,350))
+        elif vida_fran==0:
+            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
+            ventana.blit(texto,(550,350))
+    return ventana,jugando
+
 def combate(accion):
     global vida_fran, vida_zombie, defendiendo
 
@@ -526,87 +607,6 @@ def dibujar_barra_PM(barras, vida, posicion):
             vida=20
     imagen=pygame.transform.scale(barras[vida],(378,72))
     ventana.blit(imagen,posicion)
-
-def dib_pantalla_juego(pantalla_actual, imagenes_play):
-    if pantalla_actual=="JP_1":
-        ventana.blit(imagenes_play["JP_principal"]["JP1"],(0,0))
-    elif pantalla_actual=="JP_2":
-        ventana.blit(imagenes_play["JP_principal"]["JP2"],(0,0))
-    elif pantalla_actual=="JP_3":
-        ventana.blit(imagenes_play["JP_principal"]["JP3"],(0,0))
-    elif pantalla_actual=="JP_4":
-        ventana.blit(imagenes_play["JP_principal"]["JP4"],(0,0))
-    elif pantalla_actual=="JP_5":
-        ventana.blit(imagenes_play["JP_principal"]["JP5"],(0,0))
-        ventana.blit(imagenes_play["Zombies"]["Zombie1clik"],(234,252))
-        
-    elif pantalla_actual=="JP_6":
-        ventana.blit(imagenes_play["JP_principal"]["JP6"],(0,0))
-        ventana.blit(imagenes_play["JP_puertas"]["JP6_puerta"],(1290,90))
-    elif pantalla_actual=="JP_7":
-        ventana.blit(imagenes_play["JP_principal"]["JP7"],(0,0))
-        ventana.blit(imagenes_play["Puerta_PM"]["JP7_puerta"],(205,104))
-
-    elif pantalla_actual=="Coche1":
-        ventana.blit(imagenes_play["Coches"]["Coches1"],(0,0))
-    elif pantalla_actual=="Coche2":
-        ventana.blit(imagenes_play["Coches"]["Coche2"],(0,0))
-        ventana.blit(imagenes_play["Coches"]["Puerta_coche2"],(418,428))
-        
-    elif pantalla_actual=="PM1_lucha":
-        ventana.blit(imagenes_play["Luchas_PM"]["PM1"],(0,0))
-
-        dibujar_barra_PM(imagenes_play["Barras_PM1"]["PM1"],vida_pm1,(205,141))
-        dibujar_barra_PM(imagenes_play["Barras_PM1"]["Fran"],vida_fran_pm1,(1099,454))
-
-        ventana.blit(imagenes_play["Botones_combate"]["Luchar"],(747,579))
-        ventana.blit(imagenes_play["Botones_combate"]["Defensa"],(1118,579))
-        ventana.blit(imagenes_play["Botones_combate"]["Curar"],(747,668))
-        ventana.blit(imagenes_play["Botones_combate"]["Huir"],(1118,668))
-
-        fuente=pygame.font.Font(None,40)
-        if vida_pm1==0:
-            texto=fuente.render("PM1 DERROTADO",True,(255,255,255))
-            ventana.blit(texto,(550,390))
-        elif vida_fran_pm1==0:
-            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
-            ventana.blit(texto,(550,390))
-    elif pantalla_actual=="PM2_lucha":
-        ventana.blit(imagenes_play["Luchas_PM"]["PM2"],(0,0))
-        fuente=pygame.font.Font(None,38)
-        texto=fuente.render(str(vida_pm2)+"/150",True,(255,255,255))
-        ventana.blit(texto,(130,75))
-        if vida_fran_pm2 in imagenes_play["Barras_PM1"]["Fran"]:
-            dibujar_barra_PM(imagenes_play["Barras_PM1"]["Fran"],vida_fran_pm2,(1099,454))
-        else:
-            texto=fuente.render(str(vida_fran_pm2)+"/100",True,(255,255,255))
-            ventana.blit(texto,(1350,470))
-        if vida_pm2==0:
-            texto=fuente.render("PM2 DERROTADO",True,(255,255,255))
-            ventana.blit(texto,(600,390))
-        elif vida_fran_pm2==0:
-            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
-            ventana.blit(texto,(600,390))
-        
-    elif pantalla_actual=="Z1_lucha":
-        ventana.blit(imagenes_play["Zombies"]["Zombie1"],(0,0))
-
-        ventana.blit(imagenes_play["Vida_Zombie"][vida_zombie],(205,141))
-        ventana.blit(imagenes_play["Vida_Fran"][vida_fran],(1099,454))
-
-        ventana.blit(imagenes_play["Botones_combate"]["Luchar"],(747,579))
-        ventana.blit(imagenes_play["Botones_combate"]["Defensa"],(1118,579))
-        ventana.blit(imagenes_play["Botones_combate"]["Curar"],(747,668))
-        ventana.blit(imagenes_play["Botones_combate"]["Huir"],(1118,668))
-
-        fuente=pygame.font.Font(None,40)
-        if vida_zombie==0:
-            texto=fuente.render("ZOMBIE DERROTADO",True,(255,255,255))
-            ventana.blit(texto,(550,350))
-        elif vida_fran==0:
-            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
-            ventana.blit(texto,(550,350))
-    return ventana,jugando
 
 def eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas):
     global vida_fran, vida_zombie, defendiendo, tiempo_final, tiempo_final_PM, vida_pm1, vida_pm2, vida_fran_pm1, vida_fran_pm2, defendiendo_PM, golpes_PM
