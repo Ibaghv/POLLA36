@@ -19,6 +19,7 @@ def cargar_jugador():
     return parado, derecha1, derecha2, izquierda1, izquierda2, salto
 
 def imagen_Mp():
+    Intro=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Intro.jpeg")
     Menu_carga=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menu_carga_prueba.jpeg")
     Menu_Principal=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Menú_principal.png")
     Enpezar_Menu=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Enpezar_Menu_carga.png")
@@ -28,7 +29,7 @@ def imagen_Mp():
     Creditos=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP.png")
     Salir=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Salir_MP.png")
     ControlesA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Controles.jpeg")
-    TutorialA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Tutorial negro.png")
+    TutorialA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Tutorial negro.jpeg")
     CreditosA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos negro.jpeg")
     SalirA=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/SalirA.jpg")
     Nueva_partida_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Nueva_partida_MP_rojo.png")
@@ -37,6 +38,7 @@ def imagen_Mp():
     Creditos_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Créditos_MP_rojo.png")
     Salir_rojo=pygame.image.load("Project_NorthZ/Imágenes/Menu Carga/Salir_MP_rojo.png")
     fcliki=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/fcliki.png")
+    Intro=pygame.transform.scale(Intro,(1500,750))
     Menu_carga=pygame.transform.scale(Menu_carga,(1500,750))
     Menu_Principal=pygame.transform.scale(Menu_Principal,(1500,750))
     Enpezar_Menu=pygame.transform.scale(Enpezar_Menu,(723,110))
@@ -57,6 +59,7 @@ def imagen_Mp():
     fcliki=pygame.transform.scale(fcliki,(190,80))
     return {
         "pantallas": {
+            "intro":Intro,
             "carga":Menu_carga,
             "principal":Menu_Principal,
             "controles":ControlesA,
@@ -122,6 +125,8 @@ def imagen_play():
     JP7=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/JP7.png")
     
     Lucha_PM1=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/lpm1.jpeg")
+    Lucha_PM2=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/lpm2.jpeg")
+    Final=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Final.jpeg")
     
     Zombie1=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Zombi1.jpeg")
     Coches1=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Coches1.jpeg")
@@ -145,12 +150,42 @@ def imagen_play():
     bdefensa=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/bdefensa.png")
     bhuir=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/bhuir.png")
     bluchar=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/bluchar.png")
+    bcurarpm2=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/bcurarpm2.png")
+    bdefensapm2=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/bdesensapm2.png")
+    bhuirpm2=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/bhuirpm2.png")
+    bluchapm2=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/blucharpm2.png")
     botones_PM1={
         "Luchar":pygame.transform.smoothscale(bluchar,(180,70)),
         "Defensa":pygame.transform.smoothscale(bdefensa,(180,70)),
         "Curar":pygame.transform.smoothscale(bcurar,(180,70)),
         "Huir":pygame.transform.smoothscale(bhuir,(180,70))
     }
+    botones_PM2={
+        "Luchar":pygame.transform.smoothscale(bluchapm2,(180,70)),
+        "Defensa":pygame.transform.smoothscale(bdefensapm2,(180,70)),
+        "Curar":pygame.transform.smoothscale(bcurarpm2,(180,70)),
+        "Huir":pygame.transform.smoothscale(bhuirpm2,(180,70))
+    }
+
+    barras_pm2={
+        150:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/150-150-1pmpm2.png").convert_alpha(),
+        140:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/140-150-1pmpm2.png").convert_alpha(),
+        130:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/130-150-1pmpm2.png").convert_alpha(),
+        120:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/120-150-1pmpm2.png").convert_alpha(),
+        110:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/110-150-1pmpm2.png").convert_alpha(),
+        100:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/100-150-1pmpm2.png").convert_alpha(),
+        90:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/90-150-1pmpm2.png").convert_alpha(),
+        80:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/80-150-1pmpm2.png").convert_alpha(),
+        70:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/70-150-1pmpm2.png").convert_alpha(),
+        60:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/60-150-1pmpm2.png").convert_alpha(),
+        50:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/50-150-1pmpm2.png").convert_alpha(),
+        40:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/40-150-1pmpm2.png").convert_alpha(),
+        30:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/30-150-1pmpm2.png").convert_alpha(),
+        20:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/20-150-1pmpm2.png").convert_alpha(),
+        10:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/10-150-1pmpm2.png").convert_alpha(),
+        0:pygame.image.load("Project_NorthZ/Imágenes/Juego principal/Barras_PM2/0-150-1pmpm2.png").convert_alpha()
+    }
+
     vida_67=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/67-67.png")
     vida_52=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/52-67.png")
     vida_37=pygame.image.load("Project_NorthZ/Imágenes/Juego principal/37-67.png")
@@ -192,6 +227,8 @@ def imagen_play():
     JP7=pygame.transform.scale(JP7,(1500,750))
     
     Lucha_PM1=pygame.transform.scale(Lucha_PM1,(1500,750))
+    Lucha_PM2=pygame.transform.scale(Lucha_PM2,(1500,750))
+    Final=pygame.transform.scale(Final,(1500,750))
     Zombie1=pygame.transform.scale(Zombie1,(1500,750))
     Coches1=pygame.transform.scale(Coches1,(1500,750))
     Coche1i=pygame.transform.scale(Coche1i,(1500,750))
@@ -265,7 +302,9 @@ def imagen_play():
             "Zombie1clik":zombie1clik
         },
         "Luchas_PM": {
-            "PM1":Lucha_PM1
+            "PM1":Lucha_PM1,
+            "PM2":Lucha_PM2,
+            "Final":Final
         },
         "Botones_combate": {
             "Luchar":bluchar,
@@ -274,6 +313,8 @@ def imagen_play():
             "Huir":bhuir
         },
         "Botones_PM1":botones_PM1,
+        "Botones_PM2":botones_PM2,
+        "Barras_PM2":barras_pm2,
         "Vida_Fran": {
             67:vida_67,
             52:vida_52,
@@ -364,6 +405,14 @@ def rect_puertas(imagenes_play):
             ("Curar",imagenes_play["Botones_PM1"]["Curar"],(1135,665)),
             ("Huir",imagenes_play["Botones_PM1"]["Huir"],(1320,665))]
     }
+    rects_botones_PM2={
+        nombre:imagen.get_rect(topleft=posicion)
+        for nombre,imagen,posicion in [
+            ("Luchar",imagenes_play["Botones_PM2"]["Luchar"],(1135,590)),
+            ("Defensa",imagenes_play["Botones_PM2"]["Defensa"],(1320,590)),
+            ("Curar",imagenes_play["Botones_PM2"]["Curar"],(1135,665)),
+            ("Huir",imagenes_play["Botones_PM2"]["Huir"],(1320,665))]
+    }
     return {
         "clickeable_puertas": {
             "Rb_JP1":rect_puertaJP1,
@@ -388,11 +437,14 @@ def rect_puertas(imagenes_play):
             "Curar":rect_curar,
             "Huir":rect_huir
         },
-        "clickeable_combate_PM1":rects_botones_PM1
+        "clickeable_combate_PM1":rects_botones_PM1,
+        "clickeable_combate_PM2":rects_botones_PM2
     }
 
 def dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore):
-    if pantalla_actual=="carga":
+    if pantalla_actual=="intro":
+        ventana.blit(imagenes_Mp["pantallas"]["intro"],(0,0))
+    elif pantalla_actual=="carga":
         ventana.blit(imagenes_Mp["pantallas"]["carga"],(0,0))
         ventana.blit(imagenes_Mp["botones"]["empezar"],(400,592))
     elif pantalla_actual=="principal":
@@ -494,6 +546,26 @@ def dib_pantalla_juego(pantalla_actual, imagenes_play):
         elif vida_fran_pm1==0:
             texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
             ventana.blit(texto,(550,390))
+    elif pantalla_actual=="PM2_lucha":
+        ventana.blit(imagenes_play["Luchas_PM"]["PM2"],(0,0))
+        dibujar_barra_PM(imagenes_play["Barras_PM2"],vida_pm2,(120,110),(206,68))
+        dibujar_barra_PM(imagenes_play["Barras_PM1"]["Fran"],vida_fran_pm2,(1300,460),(200,75))
+
+        ventana.blit(imagenes_play["Botones_PM2"]["Luchar"],(1135,590))
+        ventana.blit(imagenes_play["Botones_PM2"]["Defensa"],(1320,590))
+        ventana.blit(imagenes_play["Botones_PM2"]["Curar"],(1135,665))
+        ventana.blit(imagenes_play["Botones_PM2"]["Huir"],(1320,665))
+        fuente=pygame.font.Font(None,40)
+        if vida_pm2==0:
+            texto=fuente.render("PM2 DERROTADO",True,(255,255,255))
+            felicitacion=fuente.render("¡FELICIDADES!",True,(255,255,255))
+            ventana.blit(texto,(550,370))
+            ventana.blit(felicitacion,(620,420))
+        elif vida_fran_pm2==0:
+            texto=fuente.render("FRAN HA PERDIDO",True,(255,255,255))
+            ventana.blit(texto,(550,390))
+    elif pantalla_actual=="Final":
+        ventana.blit(imagenes_play["Luchas_PM"]["Final"],(0,0))
     elif pantalla_actual=="Z1_lucha":
         ventana.blit(imagenes_play["Zombies"]["Zombie1"],(0,0))
         ventana.blit(imagenes_play["Vida_Zombie"][vida_zombie],(205,141))
@@ -543,8 +615,10 @@ def combate(accion):
                 vida_fran=0
 
 def combate_PM(accion):
-    global vida_pm1, vida_fran_pm1, defendiendo_PM, golpes_PM
+    global vida_pm1, vida_fran_pm1, defendiendo_PM, golpes_PM, ultima_accion_PM1
     if vida_pm1<=0 or vida_fran_pm1<=0:
+        return
+    if accion in ("Luchar", "Defensa", "Curar") and accion==ultima_accion_PM1:
         return
     if accion=="Luchar":
         daños=[10,20]
@@ -559,9 +633,12 @@ def combate_PM(accion):
         vida_fran_pm1+=15
         if vida_fran_pm1>100:
             vida_fran_pm1=100
+        ultima_accion_PM1=accion
         return
     elif accion=="Huir":
+        ultima_accion_PM1=None
         return
+    ultima_accion_PM1=accion
     if vida_pm1>0:
         if defendiendo_PM:
             defendiendo_PM=False
@@ -569,6 +646,39 @@ def combate_PM(accion):
             vida_fran_pm1-=20
             if vida_fran_pm1<0:
                 vida_fran_pm1=0
+
+def combate_PM2(accion):
+    global vida_pm2, vida_fran_pm2, defendiendo_PM2, golpes_PM2, ultima_accion_PM2
+    if vida_pm2<=0 or vida_fran_pm2<=0:
+        return
+    if accion in ("Luchar", "Defensa", "Curar") and accion==ultima_accion_PM2:
+        return
+    if accion=="Luchar":
+        daños=[10,20]
+        daño=daños[golpes_PM2%2]
+        golpes_PM2+=1
+        vida_pm2-=daño
+        if vida_pm2<0:
+            vida_pm2=0
+    elif accion=="Defensa":
+        defendiendo_PM2=True
+    elif accion=="Curar":
+        vida_fran_pm2+=15
+        if vida_fran_pm2>100:
+            vida_fran_pm2=100
+        ultima_accion_PM2=accion
+        return
+    elif accion=="Huir":
+        ultima_accion_PM2=None
+        return
+    ultima_accion_PM2=accion
+    if vida_pm2>0:
+        if defendiendo_PM2:
+            defendiendo_PM2=False
+        else:
+            vida_fran_pm2-=20
+            if vida_fran_pm2<0:
+                vida_fran_pm2=0
 
 def dibujar_barra_PM(barras,vida,posicion,tamaño=(300,58)):
     vida_mostrada=min(barras.keys(),key=lambda valor:abs(valor-vida))
@@ -578,6 +688,7 @@ def dibujar_barra_PM(barras,vida,posicion,tamaño=(300,58)):
 def eventos(jugando,pantalla_actual,rectangulos_click,rectangulos_click_puertas):
     global vida_fran, vida_zombie, defendiendo, tiempo_final
     global vida_pm1, vida_fran_pm1, defendiendo_PM, golpes_PM, tiempo_final_PM
+    global vida_pm2, vida_fran_pm2, defendiendo_PM2, golpes_PM2, tiempo_final_PM2, ultima_accion_PM1, ultima_accion_PM2
     for evento in pygame.event.get():
         if evento.type==pygame.QUIT:
             jugando=False
@@ -665,6 +776,7 @@ def eventos(jugando,pantalla_actual,rectangulos_click,rectangulos_click_puertas)
                     defendiendo_PM=False
                     golpes_PM=0
                     tiempo_final_PM=None
+                    ultima_accion_PM1=None
             elif pantalla_actual=="JP_5":
                 if rectangulos_click_puertas["clickeable_zombie"]["Z1"].collidepoint(posicion):
                     pantalla_actual="Z1_lucha"
@@ -690,6 +802,16 @@ def eventos(jugando,pantalla_actual,rectangulos_click,rectangulos_click_puertas)
                 elif rects_PM1["Curar"].collidepoint(posicion):
                     combate_PM("Curar")
                 elif rects_PM1["Huir"].collidepoint(posicion):
+                    pantalla_actual="JP_6"
+            elif pantalla_actual=="PM2_lucha" and vida_pm2>0 and vida_fran_pm2>0:
+                rects_PM2=rectangulos_click_puertas["clickeable_combate_PM2"]
+                if rects_PM2["Luchar"].collidepoint(posicion):
+                    combate_PM2("Luchar")
+                elif rects_PM2["Defensa"].collidepoint(posicion):
+                    combate_PM2("Defensa")
+                elif rects_PM2["Curar"].collidepoint(posicion):
+                    combate_PM2("Curar")
+                elif rects_PM2["Huir"].collidepoint(posicion):
                     pantalla_actual="JP_6"
     return jugando,pantalla_actual
 
@@ -786,11 +908,14 @@ def animar_jugador(teclas,parado,derecha1,derecha2,izquierda1,izquierda2,salto,f
         imagen=parado
     return imagen,fotograma,tiempo
 ventana=pygame.display.set_mode((1500,750))
+
+tiempo_intro=pygame.time.get_ticks()
+
 boton_pulsado=None
 tienpo_pulsación=0
 jugando=True
-pantalla_actual="carga"
-pantalla_anterior="carga"
+pantalla_actual="intro"
+pantalla_anterior="intro"
 imagenes_Mp=imagen_Mp()
 rectangulos_click=rect_boton(imagenes_Mp)
 imagenes_lore=None
@@ -808,12 +933,21 @@ vida_fran=67
 vida_zombie=33
 defendiendo=False
 tiempo_final=None
-# Variables de PM1. Se mantienen.
+# Variables de PM1.
 vida_pm1=100
 vida_fran_pm1=100
 defendiendo_PM=False
 golpes_PM=0
 tiempo_final_PM=None
+ultima_accion_PM1=None
+# Variables de PM2.
+vida_pm2=150
+vida_fran_pm2=100
+defendiendo_PM2=False
+golpes_PM2=0
+tiempo_final_PM2=None
+ultima_accion_PM2=None
+tiempo_final_final=None
 tiempo_final_coche=None
 x=200
 y=650-ALTO_JUGADOR
@@ -825,6 +959,10 @@ click_MCarga,click_Mprincipal=musica()
 reloj=pygame.time.Clock()
 
 while jugando:
+    if pantalla_actual=="intro":
+        if pygame.time.get_ticks()-tiempo_intro>=8000:
+            pantalla_actual="carga"
+
     jugando, pantalla_actual=eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas)
     if pantalla_actual!=pantalla_anterior:
         if pantalla_actual=="Coche1i":
@@ -910,9 +1048,33 @@ while jugando:
 
         if tiempo_final_PM!=None:
             if vida_pm1==0 and pygame.time.get_ticks()-tiempo_final_PM>=3000:
-                jugando=False
+                pantalla_actual="PM2_lucha"
+                vida_pm2=150
+                vida_fran_pm2=vida_fran_pm1
+                defendiendo_PM2=False
+                golpes_PM2=0
+                ultima_accion_PM2=None
+                tiempo_final_PM2=None
+                tiempo_final_PM=None
             elif vida_fran_pm1==0 and pygame.time.get_ticks()-tiempo_final_PM>=5000:
                 jugando=False
+    if pantalla_actual=="PM2_lucha":
+        if tiempo_final_PM2==None and (vida_pm2==0 or vida_fran_pm2==0):
+            tiempo_final_PM2=pygame.time.get_ticks()
+
+        if tiempo_final_PM2!=None:
+            if vida_pm2==0 and pygame.time.get_ticks()-tiempo_final_PM2>=3000:
+                pantalla_actual="Final"
+                tiempo_final_final=pygame.time.get_ticks()
+                tiempo_final_PM2=None
+            elif vida_fran_pm2==0 and pygame.time.get_ticks()-tiempo_final_PM2>=5000:
+                jugando=False
+            elif vida_fran_pm2==0 and pygame.time.get_ticks()-tiempo_final_PM2>=5000:
+                jugando=False
+
+    if pantalla_actual=="Final" and tiempo_final_final!=None:
+        if pygame.time.get_ticks()-tiempo_final_final>=5000:
+            jugando=False
 
     # La imagen del coche izquierdo se muestra durante 3 segundos.
     if pantalla_actual=="Coche1i" and tiempo_final_coche!=None:
