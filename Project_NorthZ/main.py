@@ -616,10 +616,17 @@ def combate(accion):
 
 def combate_PM(accion):
     global vida_pm1, vida_fran_pm1, defendiendo_PM, golpes_PM, ultima_accion_PM1
+    global contador_luchar_PM1
+
     if vida_pm1<=0 or vida_fran_pm1<=0:
         return
-    if accion in ("Luchar", "Defensa", "Curar") and accion==ultima_accion_PM1:
+
+    if accion=="Luchar" and contador_luchar_PM1>=2:
         return
+
+    if accion in ("Curar", "Defensa") and accion==ultima_accion_PM1:
+        return
+
     if accion=="Luchar":
         daños=[10,20]
         daño=daños[golpes_PM%2]
@@ -627,18 +634,27 @@ def combate_PM(accion):
         vida_pm1-=daño
         if vida_pm1<0:
             vida_pm1=0
+        contador_luchar_PM1+=1
+
     elif accion=="Defensa":
         defendiendo_PM=True
+        contador_luchar_PM1=0
+
     elif accion=="Curar":
         vida_fran_pm1+=15
         if vida_fran_pm1>100:
             vida_fran_pm1=100
+        contador_luchar_PM1=0
         ultima_accion_PM1=accion
         return
+
     elif accion=="Huir":
         ultima_accion_PM1=None
+        contador_luchar_PM1=0
         return
+
     ultima_accion_PM1=accion
+
     if vida_pm1>0:
         if defendiendo_PM:
             defendiendo_PM=False
@@ -649,10 +665,15 @@ def combate_PM(accion):
 
 def combate_PM2(accion):
     global vida_pm2, vida_fran_pm2, defendiendo_PM2, golpes_PM2, ultima_accion_PM2
+    global contador_luchar_PM2
+
     if vida_pm2<=0 or vida_fran_pm2<=0:
         return
-    if accion in ("Luchar", "Defensa", "Curar") and accion==ultima_accion_PM2:
+    if accion=="Luchar" and contador_luchar_PM2>=2:
         return
+    if accion in ("Curar", "Defensa") and accion==ultima_accion_PM2:
+        return
+
     if accion=="Luchar":
         daños=[10,20]
         daño=daños[golpes_PM2%2]
@@ -660,18 +681,24 @@ def combate_PM2(accion):
         vida_pm2-=daño
         if vida_pm2<0:
             vida_pm2=0
+        contador_luchar_PM2+=1
     elif accion=="Defensa":
         defendiendo_PM2=True
+        contador_luchar_PM2=0
     elif accion=="Curar":
         vida_fran_pm2+=15
         if vida_fran_pm2>100:
             vida_fran_pm2=100
+        contador_luchar_PM2=0
         ultima_accion_PM2=accion
         return
     elif accion=="Huir":
         ultima_accion_PM2=None
+        contador_luchar_PM2=0
         return
+    
     ultima_accion_PM2=accion
+
     if vida_pm2>0:
         if defendiendo_PM2:
             defendiendo_PM2=False
@@ -679,9 +706,12 @@ def combate_PM2(accion):
             vida_fran_pm2-=20
             if vida_fran_pm2<0:
                 vida_fran_pm2=0
-
 def dibujar_barra_PM(barras,vida,posicion,tamaño=(300,58)):
-    vida_mostrada=min(barras.keys(),key=lambda valor:abs(valor-vida))
+    vida_mostrada=0
+    for valor in barras:
+        if valor<=vida and valor>vida_mostrada:
+            vida_mostrada=valor
+
     imagen=pygame.transform.smoothscale(barras[vida_mostrada],tamaño)
     ventana.blit(imagen,posicion)
 
@@ -949,6 +979,9 @@ tiempo_final_PM2=None
 ultima_accion_PM2=None
 tiempo_final_final=None
 tiempo_final_coche=None
+contador_luchar_PM1=0
+contador_luchar_PM2=0
+
 x=200
 y=650-ALTO_JUGADOR
 velocidad_y=0
@@ -958,30 +991,30 @@ tiempo=pygame.time.get_ticks()
 click_MCarga,click_Mprincipal=musica()
 reloj=pygame.time.Clock()
 
+
 while jugando:
-    if pantalla_actual=="intro":
-        if pygame.time.get_ticks()-tiempo_intro>=8000:
+    ahora=pygame.time.get_ticks()
+
+    if pantalla_actual=="intro":#Intro
+        if ahora-tiempo_intro>=8000:
             pantalla_actual="carga"
 
     jugando, pantalla_actual=eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas)
+
+    # CAMBIO DE PANTALLA
     if pantalla_actual!=pantalla_anterior:
-        if pantalla_actual=="Coche1i":
-            tiempo_final_coche=pygame.time.get_ticks()
-        if pantalla_actual=="JP_2":
+
+        # Posición del jugador en la imagenes que se mueve
+        if pantalla_actual in ("JP_2", "JP_3", "JP_4"):
             x=70
-        elif pantalla_actual=="JP_3":
-            x=70
-        elif pantalla_actual=="JP_4":
-            x=70
-        elif pantalla_actual=="JP_5":
+        elif pantalla_actual in ("JP_5", "Coche2", "JP_6"):
             x=1200
-        elif pantalla_actual=="Coche2":
-            x=1200
+        if pantalla_actual=="Coche2":
             y=620-ALTO_JUGADOR
             velocidad_y=0
             saltando=False
         elif pantalla_actual=="JP_6":
-            x=1200
+            x=70
             y=590-ALTO_JUGADOR
             velocidad_y=0
             saltando=False
@@ -991,17 +1024,19 @@ while jugando:
             velocidad_y=0
             saltando=False
 
-    if pantalla_actual!=pantalla_anterior:
-        if pantalla_actual=="Comienzo partida":#Si entramos a lore
+        # Cargar imágenes
+        if pantalla_actual=="Comienzo partida":
             imagenes_Mp=None
             rectangulos_click=None
             imagenes_lore=imagen_lore()
             click_MCarga.play()
-        elif pantalla_actual=="principal":#Si entramos a menú
+
+        elif pantalla_actual=="principal":
             imagenes_lore=None
             imagenes_Mp=imagen_Mp()
             rectangulos_click=rect_boton(imagenes_Mp)
             click_Mprincipal.play()
+
         elif pantalla_actual=="JP_1":
             imagenes_Mp=None
             imagenes_lore=None
@@ -1009,45 +1044,40 @@ while jugando:
             imagenes_play=imagen_play()
             rectangulos_click_puertas=rect_puertas(imagenes_play)
             parado, derecha1, derecha2, izquierda1, izquierda2, salto=cargar_jugador()
+
+        elif pantalla_actual=="Coche1i":
+            tiempo_final_coche=ahora
+
         pantalla_anterior=pantalla_actual
-    # 3.Dibujar las cosas
     ventana, jugando=dibujar_pantalla(pantalla_actual, imagenes_Mp, jugando, rectangulos_click, imagenes_lore)
     ventana, jugando=dib_pantalla_juego(pantalla_actual, imagenes_play)
-    if pantalla_actual in ("JP_1", "JP_2", "JP_3", "JP_4", "JP_5", "Coche2", "JP_6", "JP_7"):
+
+    # Movimiento jugador
+    if pantalla_actual in ("JP_1", "JP_2", "JP_3", "JP_4", "JP_5", "Coche2", "JP_6", "JP_7"):#Sitios donde se puede mover el jugador
         teclas=pygame.key.get_pressed()
         x, y, velocidad_y, saltando=movimiento_jugador(x, y, velocidad_y, saltando)
         imagen, fotograma, tiempo=animar_jugador(teclas, parado, derecha1, derecha2, izquierda1, izquierda2, salto, fotograma, tiempo, saltando)
         ventana.blit(imagen,(x,y))
-    # Música
-    if pantalla_actual!=pantalla_anterior:
-        if pantalla_actual=="principal":
-            click_MCarga.stop()
-            click_Mprincipal.play()
-        elif pantalla_actual=="carga":
-            click_Mprincipal.stop()
-            click_MCarga.play()
-        elif pantalla_actual=="Comienzo partida":
-            click_Mprincipal.stop()
-        pantalla_anterior=pantalla_actual
 
-    # Si Fran pierde,
-    if pantalla_actual=="Z1_lucha":
+    if pantalla_actual=="Z1_lucha":#Combate zombi
         if (vida_zombie==0 or vida_fran==0) and tiempo_final==None:
-            tiempo_final=pygame.time.get_ticks()
+            tiempo_final=ahora
 
-        if tiempo_final!=None:
-            if pygame.time.get_ticks()-tiempo_final>=3000:
-                if vida_zombie==0:
-                    pantalla_actual="JP_4"
-                    tiempo_final=None
-                elif vida_fran==0:
-                    jugando=False
-    if pantalla_actual=="PM1_lucha":
-        if tiempo_final_PM==None and (vida_pm1==0 or vida_fran_pm1==0):
-            tiempo_final_PM=pygame.time.get_ticks()
+        if tiempo_final!=None and ahora-tiempo_final>=3000:
+            if vida_zombie==0:
+                pantalla_actual="JP_4"
+                tiempo_final=None
+            elif vida_fran==0:
+                jugando=False
+
+    if pantalla_actual=="PM1_lucha":#Combate pm2
+        if (vida_pm1==0 or vida_fran_pm1==0) and tiempo_final_PM==None:
+            tiempo_final_PM=ahora
 
         if tiempo_final_PM!=None:
-            if vida_pm1==0 and pygame.time.get_ticks()-tiempo_final_PM>=3000:
+            tiempo_transcurrido=ahora-tiempo_final_PM
+
+            if vida_pm1==0 and tiempo_transcurrido>=3000:
                 pantalla_actual="PM2_lucha"
                 vida_pm2=150
                 vida_fran_pm2=vida_fran_pm1
@@ -1056,33 +1086,36 @@ while jugando:
                 ultima_accion_PM2=None
                 tiempo_final_PM2=None
                 tiempo_final_PM=None
-            elif vida_fran_pm1==0 and pygame.time.get_ticks()-tiempo_final_PM>=5000:
+
+            elif vida_fran_pm1==0 and tiempo_transcurrido>=5000:
                 jugando=False
-    if pantalla_actual=="PM2_lucha":
-        if tiempo_final_PM2==None and (vida_pm2==0 or vida_fran_pm2==0):
-            tiempo_final_PM2=pygame.time.get_ticks()
+
+    if pantalla_actual=="PM2_lucha":#Combate pm2
+        if (vida_pm2==0 or vida_fran_pm2==0) and tiempo_final_PM2==None:
+            tiempo_final_PM2=ahora
 
         if tiempo_final_PM2!=None:
-            if vida_pm2==0 and pygame.time.get_ticks()-tiempo_final_PM2>=3000:
+            tiempo_transcurrido=ahora-tiempo_final_PM2
+
+            if vida_pm2==0 and tiempo_transcurrido>=3000:
                 pantalla_actual="Final"
-                tiempo_final_final=pygame.time.get_ticks()
+                tiempo_final_final=ahora
                 tiempo_final_PM2=None
-            elif vida_fran_pm2==0 and pygame.time.get_ticks()-tiempo_final_PM2>=5000:
-                jugando=False
-            elif vida_fran_pm2==0 and pygame.time.get_ticks()-tiempo_final_PM2>=5000:
+
+            elif vida_fran_pm2==0 and tiempo_transcurrido>=3000:
                 jugando=False
 
-    if pantalla_actual=="Final" and tiempo_final_final!=None:
-        if pygame.time.get_ticks()-tiempo_final_final>=5000:
+    if pantalla_actual=="Final" and tiempo_final_final!=None:#Final
+        if ahora-tiempo_final_final>=5000:
             jugando=False
 
-    # La imagen del coche izquierdo se muestra durante 3 segundos.
+    # COCHE IZQUIERDO
     if pantalla_actual=="Coche1i" and tiempo_final_coche!=None:
-        if pygame.time.get_ticks()-tiempo_final_coche>=3000:
+        if ahora-tiempo_final_coche>=3000:
             jugando=False
 
-    # 4. Actualizar la pantalla
+    # ACTUALIZAR PANTALLA
     pygame.display.update()
     reloj.tick(60)
 
-pygame.quit()#final del juego
+pygame.quit()
