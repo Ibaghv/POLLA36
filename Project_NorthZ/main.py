@@ -882,6 +882,14 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
     velocidad_y+=GRAVEDAD
     y+=velocidad_y
 
+    movimiento_x=0#Movimiento horizontal
+    if teclas[pygame.K_d]:
+        movimiento_x=VELOCIDAD
+    if teclas[pygame.K_a]:
+        movimiento_x=-VELOCIDAD
+
+    nuevo_x=x+movimiento_x
+    
     # Si Fran cae sobre el futbolin o la mesa, se coloca justo encima.
     if velocidad_y>=0:
         for obstaculo in obstaculos_habitacion:
@@ -895,27 +903,22 @@ def movimiento_jugador(x,y,velocidad_y,saltando):
                 saltando=False
                 break
 
-    # Suelo de cada habitacion.
-    if y+ALTO_JUGADOR>=suelo:
+    if y+ALTO_JUGADOR>=suelo:# Suelo de cada habitacion.
         y=suelo-ALTO_JUGADOR
         velocidad_y=0
         saltando=False
 
-    # Movimiento horizontal: solo bloquea si Fran choca contra un lateral.
-    movimiento_x=0
-    if teclas[pygame.K_d]:
-        movimiento_x=VELOCIDAD
-    if teclas[pygame.K_a]:
-        movimiento_x=-VELOCIDAD
-
-    nuevo_x=x+movimiento_x
     rect_horizontal=pygame.Rect(nuevo_x,y,ANCHO_JUGADOR,ALTO_JUGADOR)
     for obstaculo in obstaculos_habitacion:
         if rect_horizontal.colliderect(obstaculo):
             nuevo_x=x
             break
 
-    x=max(0,min(nuevo_x,1500-ANCHO_JUGADOR))
+    x=nuevo_x
+    if x<0:
+        x=0
+    if x>1500-ANCHO_JUGADOR:
+        x=1500-ANCHO_JUGADOR
     return x,y,velocidad_y,saltando
 
 def animar_jugador(teclas,parado,derecha1,derecha2,izquierda1,izquierda2,salto,fotograma,tiempo,saltando):
@@ -1001,8 +1004,7 @@ while jugando:
 
     jugando, pantalla_actual=eventos(jugando, pantalla_actual, rectangulos_click, rectangulos_click_puertas)
 
-    # CAMBIO DE PANTALLA
-    if pantalla_actual!=pantalla_anterior:
+    if pantalla_actual!=pantalla_anterior:#Cambio de pantalla
 
         # Posición del jugador en la imagenes que se mueve
         if pantalla_actual in ("JP_2", "JP_3", "JP_4"):
@@ -1109,13 +1111,10 @@ while jugando:
         if ahora-tiempo_final_final>=5000:
             jugando=False
 
-    # COCHE IZQUIERDO
-    if pantalla_actual=="Coche1i" and tiempo_final_coche!=None:
+    if pantalla_actual=="Coche1i" and tiempo_final_coche!=None:#Muerte al clikear la flecha de la izquierda
         if ahora-tiempo_final_coche>=3000:
             jugando=False
 
-    # ACTUALIZAR PANTALLA
-    pygame.display.update()
+    pygame.display.update()#Acctualizar pantalla
     reloj.tick(60)
-
 pygame.quit()
